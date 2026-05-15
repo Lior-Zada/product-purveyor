@@ -1,0 +1,42 @@
+---
+import type { Budget, BudgetBreakdownEntry } from '../lib/houses';
+const { budget } = Astro.props as { budget: Budget };
+
+const totalCap = budget.hard_cap_ils ?? 0;
+const totalCommitted = Object.values(budget.breakdown ?? {})
+  .reduce((sum: number, b: BudgetBreakdownEntry) => sum + ((b.spent_ils ?? 0) + (b.committed_ils ?? 0)), 0);
+const pct = totalCap > 0 ? Math.round((totalCommitted / totalCap) * 100) : 0;
+const status = pct < 70 ? 'green' : pct < 95 ? 'amber' : 'red';
+---
+<section class="budget-panel">
+  <header class="budget-header">
+    <h2>Budget</h2>
+    <span class={`progress-label ${status}`}>
+      &#8362;{totalCommitted.toLocaleString()} / &#8362;{totalCap.toLocaleString()} ({pct}%)
+    </span>
+  </header>
+  <div class={`progress ${status}`}>
+    <div class="bar" style={`width: ${Math.min(pct, 100)}%`}></div>
+  </div>
+  <table class="breakdown">
+    <thead>
+      <tr><th>Category</th><th>Cap</th><th>Spent</th><th>Committed</th></tr>
+    </thead>
+    <tbody>
+      {Object.entries(budget.breakdown ?? {}).map(([cat, b]) => (
+        <tr>
+          <td>{cat.replace(/_/g, ' ')}</td>
+          <td>&#8362;{(b.cap_ils ?? 0).toLocaleString()}</td>
+          <td>&#8362;{(b.spent_ils ?? 0).toLocaleString()}</td>
+          <td>&#8362;{(b.committed_ils ?? 0).toLocaleString()}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  {(budget.electrical_amperage_used !== undefined || budget.kitchen_counter_cm_used !== undefined) && (
+    <p class="meta">
+      {budget.electrical_amperage_used !== undefined && <>{budget.electrical_amperage_used}A used &nbsp;·&nbsp;</>}
+      {budget.kitchen_counter_cm_used !== undefined && <>{budget.kitchen_counter_cm_used}cm counter used</>}
+    </p>
+  )}
+</section>

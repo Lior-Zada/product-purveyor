@@ -1,0 +1,119 @@
+---
+import { listHouses, listItems, loadHouse, loadItemBySlug } from '../../../lib/houses';
+import { marked } from 'marked';
+
+export function getStaticPaths() {
+  const paths: Array<{ params: { house: string; item: string } }> = [];
+  for (const house of listHouses()) {
+    for (const item of listItems(house.slug)) {
+      paths.push({ params: { house: house.slug, item: item.slug } });
+    }
+  }
+  return paths;
+}
+
+const { house: houseSlug, item: itemSlug } = Astro.params;
+const house = loadHouse(houseSlug!);
+const item = loadItemBySlug(houseSlug!, itemSlug!);
+
+if (!house || !item) {
+  return Astro.redirect(`/${houseSlug}/`);
+}
+
+const bodyHtml = item.body ? marked.parse(item.body) : '';
+const selected = (item.selected ?? {}) as Record<string, any>;
+const upsell = (item.upsell_considered ?? []) as Array<Record<string, any>>;
+const energy = (item.energy ?? {}) as Record<string, any>;
+const constraints = (item.constraints ?? {}) as Record<string, any>;
+---
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>{item.title} — {house.name}</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main>
+    <nav><a href={`/${house.slug}/`}>← {house.name}</a></nav>
+    <header>
+      <div class="card-head">
+        <span class={`badge status-${item.status}`}>{item.status}</span>
+        {item.priority && <span class="badge priority">{item.priority}</span>}
+        {item.sequence && <span class="badge sequence">{item.sequence}</span>}
+      </div>
+      <h1>{item.title}</h1>
+      {item.required_by && <p class="meta">Required by: {item.required_by}</p>}
+      {item.date_needed && <p class="meta">Date needed: {item.date_needed}</p>}
+    </header>
+
+    {Object.keys(selected).length > 0 && (
+      <section class="selected-card">
+        <h2>Selected</h2>
+        <p class="brand">
+          <strong>{selected.brand ?? selected.provider}</strong>
+          {selected.model && <> · {selected.model}</>}
+        </p>
+        {selected.price_ils && <p class="price">&#8362;{selected.price_ils.toLocaleString()}</p>}
+        {selected.monthly_ils && <p class="price">&#8362;{selected.monthly_ils}/month</p>}
+        <dl>
+          {selected.vendor && <><dt>Vendor</dt><dd>
+            {selected.vendor_url
+              ? <a href={selected.vendor_url} target="_blank" rel="noopener">{selected.vendor}</a>
+              : selected.vendor}
+          </dd></>}
+          {selected.warranty && <><dt>Warranty</dt><dd>{selected.warranty}</dd></>}
+          {selected.tashlumim_available && <><dt>Tashlumim</dt><dd>{selected.tashlumim_available} interest-free</dd></>}
+          {item.decision_date && <><dt>Decided</dt><dd>{item.decision_date}</dd></>}
+          {item.expected_lifespan_years && <><dt>Expected lifespan</dt><dd>{item.expected_lifespan_years} years</dd></>}
+          {item.replacement_due && <><dt>Replace by</dt><dd>{item.replacement_due}</dd></>}
+        </dl>
+      </section>
+    )}
+
+    {(energy.kwh_per_year || energy.est_annual_cost_ils) && (
+      <section>
+        <h2>Energy</h2>
+        <dl class="house-meta">
+          {energy.kwh_per_year && <><dt>kWh/year</dt><dd>{energy.kwh_per_year}</dd></>}
+          {energy.est_annual_cost_ils && <><dt>Est. annual cost</dt><dd>&#8362;{energy.est_annual_cost_ils}</dd></>}
+        </dl>
+      </section>
+    )}
+
+    {Object.keys(constraints).length > 0 && (
+      <section>
+        <h2>Constraints</h2>
+        <dl class="house-meta">
+          {Object.entries(constraints).map(([k, v]) => (
+            <><dt>{k.replace(/_/g, ' ')}</dt><dd>{Array.isArray(v) ? v.join(', ') : String(v)}</dd></>
+          ))}
+        </dl>
+      </section>
+    )}
+
+    {upsell.length > 0 && (
+      <section class="upsell">
+        <h2>Upsell considered</h2>
+        {upsell.map((u) => (
+          <div class="upsell-item">
+            <strong>{u.brand} {u.model}</strong>
+            {u.price_ils && <span class="price"> · &#8362;{u.price_ils.toLocaleString()}</span>}
+            {u.why_skipped && <p class="why">{u.why_skipped}</p>}
+          </div>
+        ))}
+      </section>
+    )}
+
+    {bodyHtml && (
+      <section class="md-body">
+        <Fragment set:html={bodyHtml} />
+      </section>
+    )}
+
+    <p class="edit-hint">
+      To edit, open <code>houses/{house.slug}/items/{item.slug}.md</code> in your editor — or ask Claude Code: <code>Update the {item.title.toLowerCase()} for {house.name}</code>.
+    </p>
+  </main>
+</body>
+</html>

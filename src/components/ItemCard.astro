@@ -1,0 +1,35 @@
+---
+import type { Item } from '../lib/houses';
+const { item } = Astro.props as { item: Item };
+const selected = (item.selected ?? {}) as Record<string, any>;
+const priceLabel = selected.monthly_ils
+  ? `₪${selected.monthly_ils}/mo`
+  : selected.price_ils
+    ? `₪${selected.price_ils.toLocaleString()}`
+    : null;
+const firstLine = item.body
+  ? item.body
+      .split('\n')
+      .map((l) => l.trim())
+      .filter((l) => l && !l.startsWith('#'))
+      .slice(0, 2)
+      .join(' ')
+      .replace(/^[-*]\s*/, '')
+      .slice(0, 160)
+  : '';
+---
+<a class={`card status-${item.status}`} href={`/${item.house}/items/${item.slug}/`}>
+  <div class="card-head">
+    <span class={`badge status-${item.status}`}>{item.status}</span>
+    {item.priority && <span class="badge priority">{item.priority}</span>}
+  </div>
+  <h3>{item.title}</h3>
+  {(selected.brand || selected.provider) && (
+    <p class="pick">
+      <strong>{selected.brand ?? selected.provider}</strong>
+      {selected.model && <> · {selected.model}</>}
+    </p>
+  )}
+  {priceLabel && <p class="price">{priceLabel}</p>}
+  {firstLine && <p class="rationale">{firstLine}</p>}
+</a>

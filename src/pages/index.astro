@@ -1,0 +1,37 @@
+---
+import { listHouses } from '../lib/houses';
+const houses = listHouses();
+---
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Product Purveyor</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main>
+    <header class="site-header">
+      <h1>Product Purveyor</h1>
+      <p class="tag">Your local-first home procurement workspace.</p>
+    </header>
+
+    <h2>Houses</h2>
+    {houses.length === 0 ? (
+      <p class="empty">No houses yet. Open Claude Code in this repo and say: <code>Set up a new house called &lt;name&gt;</code>.</p>
+    ) : (
+      <ul class="house-list">
+        {houses.map((h) => (
+          <li>
+            <a href={`/${h.slug}/`}>
+              <strong>{h.name}</strong>
+              {h.address && <span class="addr">{h.address}</span>}
+              {h.budget?.hard_cap_ils && <span class="cap">cap: &#8362;{h.budget.hard_cap_ils.toLocaleString()}</span>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </main>
+</body>
+</html>
