@@ -16,8 +16,8 @@ You bring an AI agent (Claude Code recommended). Product Purveyor is the workspa
 ```bash
 git clone https://github.com/Lior-Zada/product-purveyor.git
 cd product-purveyor
-pnpm install
-pnpm dev   # viewer at http://localhost:4321
+npm install         # or: pnpm install
+npm run dev         # or: pnpm dev — viewer at http://localhost:4321
 ```
 
 In a separate terminal in the same directory, open Claude Code:
