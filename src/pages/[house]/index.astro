@@ -1,5 +1,5 @@
 ---
-import { listHouses, loadHouse, loadBudget, listItems } from '../../lib/houses';
+import { listHouses, loadHouse, loadBudget, listItems, formatDate } from '../../lib/houses';
 import ItemCard from '../../components/ItemCard.astro';
 import BudgetPanel from '../../components/BudgetPanel.astro';
 
@@ -43,7 +43,7 @@ const grouped = {
         {house.address && <><dt>Address</dt><dd>{house.address}</dd></>}
         {house.sqm && <><dt>Size</dt><dd>{house.sqm} sqm</dd></>}
         {house.household_size && <><dt>Household</dt><dd>{house.household_size}</dd></>}
-        {house.move_in_date && <><dt>Move-in</dt><dd>{house.move_in_date}</dd></>}
+        {house.move_in_date && <><dt>Move-in</dt><dd>{formatDate(house.move_in_date)}</dd></>}
       </dl>
     </header>
 

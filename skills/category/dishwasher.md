@@ -87,9 +87,11 @@ When writing the item file, ensure:
 
 - `category: dishwasher`
 - `constraints` includes `width_cm` and `place_settings_min`
-- `selected` has `brand`, `model`, `price_ils`, `vendor`, `vendor_url`, `warranty`, `tashlumim_available`
+- `selected` has `brand`, `model`, `price_ils`, `vendor`, `product_url`, `image_url`, `warranty`, `tashlumim_available`
+- `selected.reviews` with `average_score`, `total_reviews`, ≥2 `sources`, 2&ndash;3 `quotes` (mix sentiment — at least one negative if any exists)
+- `alternatives_considered` populated with 2&ndash;3 options, each with the same review/image structure plus `why_skipped` (one specific sentence — not generic)
+- `upsell_considered` populated if a candidate exists, with same structure
 - `energy.kwh_per_year` and `energy.est_annual_cost_ils` populated
 - `expected_lifespan_years` populated (use defaults above unless evidence suggests otherwise)
 - `replacement_due` calculated as `decision_date + lifespan_years`
 - `power_amps: 10`
-- `upsell_considered` populated if a candidate exists

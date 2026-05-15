@@ -1,5 +1,6 @@
 ---
-import { listHouses, listItems, loadHouse, loadItemBySlug } from '../../../lib/houses';
+import { listHouses, listItems, loadHouse, loadItemBySlug, stars, formatDate } from '../../../lib/houses';
+import type { Option, Reviews } from '../../../lib/houses';
 import { marked } from 'marked';
 
 export function getStaticPaths() {
@@ -21,98 +22,202 @@ if (!house || !item) {
 }
 
 const bodyHtml = item.body ? marked.parse(item.body) : '';
-const selected = (item.selected ?? {}) as Record<string, any>;
-const upsell = (item.upsell_considered ?? []) as Array<Record<string, any>>;
-const energy = (item.energy ?? {}) as Record<string, any>;
-const constraints = (item.constraints ?? {}) as Record<string, any>;
+const selected: Option = item.selected ?? {};
+const upsell: Option[] = item.upsell_considered ?? [];
+const alternatives: Option[] = item.alternatives_considered ?? [];
+const energy = item.energy ?? {};
+const constraints = (item.constraints ?? {}) as Record<string, unknown>;
+const selectedImageStyle = selected.image_url ? `background-image: url('${selected.image_url}');` : '';
+
+function reviewsBlock(r: Reviews | undefined) {
+  return r;
+}
 ---
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
-  <title>{item.title} — {house.name}</title>
+  <title>{item.title} &mdash; {house.name}</title>
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
   <main>
-    <nav><a href={`/${house.slug}/`}>← {house.name}</a></nav>
-    <header>
+    <nav><a href={`/${house.slug}/`}>&larr; {house.name}</a></nav>
+
+    <header class="item-header">
       <div class="card-head">
         <span class={`badge status-${item.status}`}>{item.status}</span>
         {item.priority && <span class="badge priority">{item.priority}</span>}
         {item.sequence && <span class="badge sequence">{item.sequence}</span>}
       </div>
       <h1>{item.title}</h1>
-      {item.required_by && <p class="meta">Required by: {item.required_by}</p>}
-      {item.date_needed && <p class="meta">Date needed: {item.date_needed}</p>}
+      {item.required_by && <p class="meta">Required by: {formatDate(item.required_by)}</p>}
+      {item.date_needed && <p class="meta">Date needed: {formatDate(item.date_needed)}</p>}
     </header>
 
-    {Object.keys(selected).length > 0 && (
-      <section class="selected-card">
-        <h2>Selected</h2>
-        <p class="brand">
-          <strong>{selected.brand ?? selected.provider}</strong>
-          {selected.model && <> · {selected.model}</>}
-        </p>
-        {selected.price_ils && <p class="price">&#8362;{selected.price_ils.toLocaleString()}</p>}
-        {selected.monthly_ils && <p class="price">&#8362;{selected.monthly_ils}/month</p>}
-        <dl>
-          {selected.vendor && <><dt>Vendor</dt><dd>
-            {selected.vendor_url
-              ? <a href={selected.vendor_url} target="_blank" rel="noopener">{selected.vendor}</a>
-              : selected.vendor}
-          </dd></>}
-          {selected.warranty && <><dt>Warranty</dt><dd>{selected.warranty}</dd></>}
-          {selected.tashlumim_available && <><dt>Tashlumim</dt><dd>{selected.tashlumim_available} interest-free</dd></>}
-          {item.decision_date && <><dt>Decided</dt><dd>{item.decision_date}</dd></>}
-          {item.expected_lifespan_years && <><dt>Expected lifespan</dt><dd>{item.expected_lifespan_years} years</dd></>}
-          {item.replacement_due && <><dt>Replace by</dt><dd>{item.replacement_due}</dd></>}
-        </dl>
-      </section>
-    )}
+    <div class="item-detail-grid">
+      <div class="left-col">
+        {bodyHtml && (
+          <section class="md-body">
+            <Fragment set:html={bodyHtml} />
+          </section>
+        )}
 
-    {(energy.kwh_per_year || energy.est_annual_cost_ils) && (
-      <section>
-        <h2>Energy</h2>
-        <dl class="house-meta">
-          {energy.kwh_per_year && <><dt>kWh/year</dt><dd>{energy.kwh_per_year}</dd></>}
-          {energy.est_annual_cost_ils && <><dt>Est. annual cost</dt><dd>&#8362;{energy.est_annual_cost_ils}</dd></>}
-        </dl>
-      </section>
-    )}
+        {selected.reviews && (
+          <section class="reviews">
+            <h2>Reviews</h2>
+            <div class="reviews-summary">
+              <span class="reviews-score">{selected.reviews.average_score?.toFixed(1)}</span>
+              <span class="reviews-score-max">/ {selected.reviews.score_max ?? 5}</span>
+              {selected.reviews.average_score !== undefined && (
+                <span class="reviews-stars">{stars(selected.reviews.average_score, selected.reviews.score_max ?? 5)}</span>
+              )}
+              {selected.reviews.total_reviews !== undefined && (
+                <span class="reviews-count">{selected.reviews.total_reviews.toLocaleString()} reviews</span>
+              )}
+            </div>
+            {selected.reviews.sources && selected.reviews.sources.length > 0 && (
+              <div class="reviews-sources">
+                {selected.reviews.sources.map((s) => (
+                  <span class="reviews-source">
+                    <strong>{s.site}</strong> &middot; {s.score}{s.score_max ? `/${s.score_max}` : ''}
+                    {s.count !== undefined && <> ({s.count})</>}
+                  </span>
+                ))}
+              </div>
+            )}
+            {selected.reviews.quotes && selected.reviews.quotes.length > 0 && (
+              <div class="reviews-quotes">
+                {selected.reviews.quotes.map((q) => (
+                  <div class={`review-quote ${q.sentiment ?? ''}`}>
+                    <span class="quote">&ldquo;{q.quote}&rdquo;</span>
+                    <span class="src">{q.source}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
 
-    {Object.keys(constraints).length > 0 && (
-      <section>
-        <h2>Constraints</h2>
-        <dl class="house-meta">
-          {Object.entries(constraints).map(([k, v]) => (
-            <><dt>{k.replace(/_/g, ' ')}</dt><dd>{Array.isArray(v) ? v.join(', ') : String(v)}</dd></>
-          ))}
-        </dl>
-      </section>
-    )}
+        {alternatives.length > 0 && (
+          <section>
+            <h2>Alternatives considered</h2>
+            <div class="alt-grid">
+              {alternatives.map((alt) => {
+                const altImageStyle = alt.image_url ? `background-image: url('${alt.image_url}');` : '';
+                const altCard = (
+                  <>
+                    <div class="alt-head">
+                      <div class="alt-image" style={altImageStyle}></div>
+                      <div class="alt-info">
+                        <p class="alt-brand">{alt.brand ?? alt.provider}</p>
+                        {alt.model && <p class="alt-model">{alt.model}</p>}
+                        {alt.price_ils && <p class="alt-price">&#8362;{alt.price_ils.toLocaleString()}</p>}
+                        {alt.reviews?.average_score !== undefined && (
+                          <p class="alt-reviews">
+                            <span class="stars">{stars(alt.reviews.average_score, alt.reviews.score_max ?? 5)}</span>
+                            <span>{alt.reviews.average_score.toFixed(1)}</span>
+                            {alt.reviews.total_reviews !== undefined && <span>&middot; {alt.reviews.total_reviews}</span>}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    {alt.why_skipped && <p class="alt-why">{alt.why_skipped}</p>}
+                  </>
+                );
+                return alt.product_url
+                  ? <a class="alt-card" href={alt.product_url} target="_blank" rel="noopener">{altCard}</a>
+                  : <div class="alt-card">{altCard}</div>;
+              })}
+            </div>
+          </section>
+        )}
 
-    {upsell.length > 0 && (
-      <section class="upsell">
-        <h2>Upsell considered</h2>
-        {upsell.map((u) => (
-          <div class="upsell-item">
-            <strong>{u.brand} {u.model}</strong>
-            {u.price_ils && <span class="price"> · &#8362;{u.price_ils.toLocaleString()}</span>}
-            {u.why_skipped && <p class="why">{u.why_skipped}</p>}
+        {upsell.length > 0 && (
+          <section class="upsell">
+            <h2>Upsell considered</h2>
+            <div class="alt-grid">
+              {upsell.map((u) => {
+                const uImageStyle = u.image_url ? `background-image: url('${u.image_url}');` : '';
+                const uCard = (
+                  <>
+                    <div class="alt-head">
+                      <div class="alt-image" style={uImageStyle}></div>
+                      <div class="alt-info">
+                        <p class="alt-brand">{u.brand ?? u.provider}</p>
+                        {u.model && <p class="alt-model">{u.model}</p>}
+                        {u.price_ils && <p class="alt-price">&#8362;{u.price_ils.toLocaleString()}</p>}
+                        {u.reviews?.average_score !== undefined && (
+                          <p class="alt-reviews">
+                            <span class="stars">{stars(u.reviews.average_score, u.reviews.score_max ?? 5)}</span>
+                            <span>{u.reviews.average_score.toFixed(1)}</span>
+                            {u.reviews.total_reviews !== undefined && <span>&middot; {u.reviews.total_reviews}</span>}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    {u.why_skipped && <p class="alt-why">{u.why_skipped}</p>}
+                  </>
+                );
+                return u.product_url
+                  ? <a class="alt-card" href={u.product_url} target="_blank" rel="noopener">{uCard}</a>
+                  : <div class="alt-card">{uCard}</div>;
+              })}
+            </div>
+          </section>
+        )}
+
+        {Object.keys(constraints).length > 0 && (
+          <section>
+            <h2>Constraints</h2>
+            <dl class="house-meta">
+              {Object.entries(constraints).map(([k, v]) => (
+                <><dt>{k.replace(/_/g, ' ')}</dt><dd>{Array.isArray(v) ? v.join(', ') : String(v)}</dd></>
+              ))}
+            </dl>
+          </section>
+        )}
+
+        {(energy.kwh_per_year || energy.est_annual_cost_ils) && (
+          <section>
+            <h2>Energy</h2>
+            <dl class="house-meta">
+              {energy.kwh_per_year && <><dt>kWh/year</dt><dd>{energy.kwh_per_year}</dd></>}
+              {energy.est_annual_cost_ils && <><dt>Est. annual cost</dt><dd>&#8362;{energy.est_annual_cost_ils}</dd></>}
+            </dl>
+          </section>
+        )}
+      </div>
+
+      <aside>
+        {(selected.brand || selected.provider) && (
+          <div class="selected-card">
+            <div class="selected-image" style={selectedImageStyle}></div>
+            <div class="selected-body">
+              <p class="brand"><strong>{selected.brand ?? selected.provider}</strong></p>
+              {selected.model && <p class="model">{selected.model}</p>}
+              {selected.price_ils && <p class="price">&#8362;{selected.price_ils.toLocaleString()}</p>}
+              {selected.monthly_ils && <p class="price">&#8362;{selected.monthly_ils}/month</p>}
+              {selected.product_url && (
+                <a class="vendor-link" href={selected.product_url} target="_blank" rel="noopener">
+                  Buy at {selected.vendor ?? 'vendor'} &rarr;
+                </a>
+              )}
+              <dl>
+                {selected.warranty && <><dt>Warranty</dt><dd>{selected.warranty}</dd></>}
+                {selected.tashlumim_available && <><dt>Tashlumim</dt><dd>{selected.tashlumim_available} interest-free</dd></>}
+                {item.decision_date && <><dt>Decided</dt><dd>{formatDate(item.decision_date)}</dd></>}
+                {item.expected_lifespan_years && <><dt>Lifespan</dt><dd>{item.expected_lifespan_years} years</dd></>}
+                {item.replacement_due && <><dt>Replace by</dt><dd>{formatDate(item.replacement_due)}</dd></>}
+              </dl>
+            </div>
           </div>
-        ))}
-      </section>
-    )}
-
-    {bodyHtml && (
-      <section class="md-body">
-        <Fragment set:html={bodyHtml} />
-      </section>
-    )}
+        )}
+      </aside>
+    </div>
 
     <p class="edit-hint">
-      To edit, open <code>houses/{house.slug}/items/{item.slug}.md</code> in your editor — or ask Claude Code: <code>Update the {item.title.toLowerCase()} for {house.name}</code>.
+      To edit, open <code>houses/{house.slug}/items/{item.slug}.md</code> in your editor &mdash; or ask Claude Code: <code>Update the {item.title.toLowerCase()} for {house.name}</code>.
     </p>
   </main>
 </body>

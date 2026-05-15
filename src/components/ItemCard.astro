@@ -1,12 +1,14 @@
 ---
 import type { Item } from '../lib/houses';
+import { stars } from '../lib/houses';
 const { item } = Astro.props as { item: Item };
-const selected = (item.selected ?? {}) as Record<string, any>;
+const selected = item.selected ?? {};
 const priceLabel = selected.monthly_ils
   ? `₪${selected.monthly_ils}/mo`
   : selected.price_ils
     ? `₪${selected.price_ils.toLocaleString()}`
     : null;
+const reviews = selected.reviews;
 const firstLine = item.body
   ? item.body
       .split('\n')
@@ -17,19 +19,30 @@ const firstLine = item.body
       .replace(/^[-*]\s*/, '')
       .slice(0, 160)
   : '';
+const imageStyle = selected.image_url ? `background-image: url('${selected.image_url}');` : '';
 ---
 <a class={`card status-${item.status}`} href={`/${item.house}/items/${item.slug}/`}>
-  <div class="card-head">
-    <span class={`badge status-${item.status}`}>{item.status}</span>
-    {item.priority && <span class="badge priority">{item.priority}</span>}
+  <div class="card-image" style={imageStyle}></div>
+  <div class="card-body">
+    <div class="card-head">
+      <span class={`badge status-${item.status}`}>{item.status}</span>
+      {item.priority && <span class="badge priority">{item.priority}</span>}
+    </div>
+    <h3>{item.title}</h3>
+    {(selected.brand || selected.provider) && (
+      <p class="pick">
+        <strong>{selected.brand ?? selected.provider}</strong>
+        {selected.model && <> &middot; {selected.model}</>}
+      </p>
+    )}
+    {priceLabel && <p class="price">{priceLabel}</p>}
+    {reviews?.average_score !== undefined && (
+      <p class="reviews-inline">
+        <span class="stars">{stars(reviews.average_score, reviews.score_max ?? 5)}</span>
+        <span>{reviews.average_score.toFixed(1)}</span>
+        {reviews.total_reviews !== undefined && <span>&middot; {reviews.total_reviews.toLocaleString()} reviews</span>}
+      </p>
+    )}
+    {firstLine && <p class="rationale">{firstLine}</p>}
   </div>
-  <h3>{item.title}</h3>
-  {(selected.brand || selected.provider) && (
-    <p class="pick">
-      <strong>{selected.brand ?? selected.provider}</strong>
-      {selected.model && <> · {selected.model}</>}
-    </p>
-  )}
-  {priceLabel && <p class="price">{priceLabel}</p>}
-  {firstLine && <p class="rationale">{firstLine}</p>}
 </a>

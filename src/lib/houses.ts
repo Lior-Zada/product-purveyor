@@ -4,6 +4,47 @@ import matter from 'gray-matter';
 
 const HOUSES_ROOT = path.resolve(process.cwd(), 'houses');
 
+export interface ReviewSource {
+  site: string;
+  score: number;
+  score_max?: number;
+  count?: number;
+}
+
+export interface ReviewQuote {
+  quote: string;
+  source: string;
+  sentiment?: 'positive' | 'negative' | 'mixed';
+}
+
+export interface Reviews {
+  average_score?: number;
+  score_max?: number;
+  total_reviews?: number;
+  sources?: ReviewSource[];
+  quotes?: ReviewQuote[];
+}
+
+export interface Option {
+  brand?: string;
+  provider?: string;
+  model?: string;
+  price_ils?: number;
+  monthly_ils?: number;
+  vendor?: string;
+  product_url?: string;
+  vendor_url?: string;
+  image_url?: string;
+  warranty?: string;
+  tashlumim_available?: number;
+  reviews?: Reviews;
+  why_skipped?: string;
+  contact?: string;
+  start_date?: string;
+  cancellation_terms?: string;
+  notes?: string;
+}
+
 export interface House {
   slug: string;
   name: string;
@@ -36,12 +77,13 @@ export interface Item {
     monthly_ils?: number;
     annual_ils?: number;
   };
-  selected?: Record<string, unknown>;
+  selected?: Option;
   decision_date?: string;
   energy?: { kwh_per_year?: number; est_annual_cost_ils?: number };
   expected_lifespan_years?: number;
   replacement_due?: string;
-  upsell_considered?: Array<Record<string, unknown>>;
+  alternatives_considered?: Option[];
+  upsell_considered?: Option[];
   options_considered?: number;
   power_amps?: number;
   body: string;
@@ -107,7 +149,6 @@ export function listItems(houseSlug: string): Item[] {
   const items: Item[] = [];
   const houseRoot = path.join(HOUSES_ROOT, houseSlug);
 
-  // Buy items
   const itemsDir = path.join(houseRoot, 'items');
   if (fs.existsSync(itemsDir)) {
     for (const f of fs.readdirSync(itemsDir)) {
@@ -118,7 +159,6 @@ export function listItems(houseSlug: string): Item[] {
     }
   }
 
-  // Service items (one-time + recurring)
   for (const sub of ['services/one-time', 'services/recurring']) {
     const dir = path.join(houseRoot, sub);
     if (!fs.existsSync(dir)) continue;
@@ -158,6 +198,7 @@ function loadItemFromDir(houseSlug: string, slug: string, dir: string): Item | n
     energy: data.energy,
     expected_lifespan_years: data.expected_lifespan_years,
     replacement_due: data.replacement_due,
+    alternatives_considered: data.alternatives_considered,
     upsell_considered: data.upsell_considered,
     options_considered: data.options_considered,
     power_amps: data.power_amps,
@@ -176,4 +217,24 @@ export function loadItemBySlug(houseSlug: string, itemSlug: string): Item | null
     if (item) return item;
   }
   return null;
+}
+
+// Render a star string out of 5 from any score, rounding to nearest whole star.
+export function stars(score: number, max: number = 5): string {
+  const normalized = max === 5 ? score : (score / max) * 5;
+  const full = Math.max(0, Math.min(5, Math.round(normalized)));
+  return '★'.repeat(full) + '☆'.repeat(5 - full);
+}
+
+// Format a YAML date (which gray-matter often parses as a JS Date) as YYYY-MM-DD.
+export function formatDate(d: string | Date | undefined | null): string | undefined {
+  if (d === undefined || d === null) return undefined;
+  if (typeof d === 'string') return d;
+  if (d instanceof Date) {
+    const y = d.getUTCFullYear();
+    const m = String(d.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(d.getUTCDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+  return String(d);
 }
