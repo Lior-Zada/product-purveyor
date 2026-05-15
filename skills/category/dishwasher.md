@@ -53,6 +53,21 @@ applies_to: [dishwasher]
 - **Steel interior**: Lasts 15-20y vs ~7-10y for plastic. Almost always worth the upgrade.
 - **Adjustable upper rack**: Critical if you wash large pots or tall wine glasses.
 
+## Brand quality tier (IL dishwasher market, observed Nov 2026)
+
+Use this as an explicit ranking dimension. Within budget, prefer upper-tier over more-features-mid-tier.
+
+| Tier | Brands | Notes |
+|---|---|---|
+| **Premium** | Miele (G-series), Gaggenau | 18&ndash;25y lifespan, near-silent, premium price (&pound;7k+). Worth it if the kitchen is the long-term home. |
+| **Upper** | Bosch (SMV/SMI/SMS/SPV), Siemens (SR/SN) | 12&ndash;15y lifespan, best mainstream engineering, strong IL service network via official import (BSH Israel). The "default upper" pick for most households. |
+| **Mid** | Electrolux/AEG (ESM/ESI/EEC), LG (DA/DT) | 10&ndash;12y lifespan, decent service, AEG-Electrolux IL service is solid. Good when constraints (often width) push out of upper tier. |
+| **Mid-budget** | Beko (BDIN/DEN) on official import, Hisense | 7&ndash;10y on official, 5&ndash;7y on yevuan moy. Pump-failure risk on Beko 4xx series past year 5. Acceptable budget pick *only if* official import + 5y warranty. |
+| **Budget** | Midea, Beko on yevuan moy, generic | 5&ndash;7y typical. Cheap upfront; expensive in repair frequency. Pick only if user is short-term (rental, transitional). |
+| **Israeli native** | Electra | Mid-tier engineering, premium IL service network &mdash; among the best for warranty support and parts availability. Good "risk-averse" choice. |
+
+**Tier-flex shortcut for dishwashers**: width is the most common constraint that forces a tier drop. 45cm slim category is dominated by mid/budget tiers; 60cm has the full upper-tier lineup. If the user's kitchen is built for 45cm, *ask whether expanding to 60cm is feasible* &mdash; cabinet rework is typically &pound;500&ndash;1000 one-time, often justified by a 5+ year longevity gain.
+
 ## Common Israeli pitfalls
 
 - **Bosch SMS/SMI/SMV**: SMS = freestanding, SMI = semi-integrated, SMV = fully integrated. Make sure the model matches the kitchen plan.

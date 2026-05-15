@@ -95,9 +95,20 @@ power_amps: 10
 
 - **Best 45cm slim option currently in IL retail.** The original target was a sub-45dB Bosch or Siemens 45cm slim, but neither brand has a 45cm line in current IL retail catalogs (verified against Zap, Bug, KSP). The Electrolux is the highest-quality 45cm model available.
 - **Inverter motor + AirDry** &mdash; quietest mid-tier 45cm option, longest expected life in the slim category.
-- **AEG/Electrolux IL service network** is the second-best in Israel after Electra. Official 3-year warranty + 10-year motor warranty.
-- **Honest tradeoff on noise**: 49dB is acceptable in our closed kitchen layout. If we had an open-plan kitchen, the upsell candidate (60cm Bosch SMV4HAX19E at ~44dB) would be the right call &mdash; but it requires cabinet rework.
+- **AEG/Electrolux IL service network** is solid &mdash; official 3-year warranty + 10-year motor warranty.
+- **Width constraint binds**: our kitchen cabinet is built for 45cm. Reworking to 60cm would cost ₪500&ndash;1,000 and delay the move-in. Not worth it for *this* purchase.
+
+## Honest note on brand tier
+
+**Bosch is a higher tier than Electrolux for dishwashers** &mdash; better motor engineering, lower noise floor (~42&ndash;44dB at this price), 12&ndash;15y typical lifespan vs 10&ndash;12y for Electrolux, stronger IL service network via BSH Israel.
+
+The upsell candidate (Bosch SMV4HAX19E, 60cm, ₪2,195) is the better machine on every dimension *except width*. We stayed with Electrolux because:
+
+1. The 45cm cabinet is built and immovable in this build
+2. The Bosch upsell is only ₪133 more on sticker but ₪500&ndash;1,000 more once you add cabinet rework
+
+If you're reading this because you're starting a new kitchen plan, **set the dishwasher cutout to 60cm and pick the Bosch**. The 45cm constraint is the real cost here, not the brand choice within 45cm.
 
 ## On availability
 
-The 45cm slim segment in current IL retail is sparse: Midea (cheap), Electrolux/AEG (mid), and not much else. Premium 45cm options (Bosch SPS series, Miele G-slim) appear in EU catalogs but aren't currently retail-stocked in Israel. If a 45cm Bosch becomes available, it would likely be a worthy refresh candidate.
+The 45cm slim segment in current IL retail is sparse: Midea (budget), Electrolux/AEG (mid), and not much else. Premium 45cm options (Bosch SPS-series, Miele G-slim) appear in EU catalogs but aren't currently retail-stocked in Israel. If a 45cm Bosch becomes available, it would be a worthy refresh candidate.

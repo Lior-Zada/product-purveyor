@@ -103,6 +103,44 @@ If after 2 search attempts you can't find a working URL for a candidate:
 - Or use the category catalog page as a fallback: `https://www.zap.co.il/models.aspx?sog=e-<category>`.
 - Note in the item's body prose what didn't work and why.
 
+## Quality tier and constraint flexibility
+
+Cheapest-that-meets-constraints is rarely the right answer. Two more dimensions belong in every recommendation:
+
+### 1. Brand quality tier
+
+Each category skill includes a **brand-tier table** ranking IL-available brands from premium to entry. Use it as an explicit dimension in your analysis &mdash; not just an implicit factor in review scores.
+
+When ranking candidates within budget, prefer **upper-tier within budget** over **mid-tier with extra features**. Tier reflects engineering, longevity, service-network depth &mdash; things review counts don't always capture early in a model's life.
+
+### 2. Constraint flexibility check
+
+After you identify the best in-constraint option, ask:
+
+> *"If we flex one constraint &mdash; width, capacity, budget by &lt;15% &mdash; would we move up a brand tier?"*
+
+If yes, **surface that option prominently** &mdash; in the `upsell_considered` slot, with a clear one-line cost-of-flexing (e.g., *"+₪500&ndash;1000 for cabinet rework, but you get a Bosch instead of an Electrolux"*).
+
+Common constraint-flex moves:
+- **Width** (45cm &rarr; 60cm): often unlocks 1&ndash;2 tiers up. Cabinet rework cost: ₪500&ndash;1500 once.
+- **Capacity** (small &rarr; medium): sometimes unlocks better brand availability. Free if the space allows.
+- **Energy class** (B &rarr; A): often free with the upper-tier model that uses better tech anyway.
+- **Yevuan moy &rarr; official import** (cost: typically +10&ndash;25%): unlocks longer warranty + IL service network for the same physical product.
+
+When the constraint is *truly* hard (e.g., the kitchen literally cannot fit 60cm), then mid-tier within constraints is the right pick. But verify with the user before accepting the constraint as immovable.
+
+### Review-weighted ranking
+
+When choosing among similar-tier candidates, rank by review credibility:
+
+```
+weighted_score = average_score &times; log10(max(total_reviews, 10))
+```
+
+A 4.6 with 50 reviews is *not* better than a 4.4 with 500. The log-weighting reflects how much trust to place in the score &mdash; small samples are noise.
+
+When you have fewer than ~30 reviews from any source, mention this in `why_skipped` or in body prose. *"Limited review data on this model &mdash; only 12 IL reviews"* is honest and useful.
+
 ## Workflow on "Set up a new house"
 
 Run `skills/core/house-setup.md`.
