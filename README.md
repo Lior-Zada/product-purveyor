@@ -79,9 +79,22 @@ The agent will:
 
 ## Customizing
 
+### Bundled skills
+
+**Category skills** (`skills/category/`) &mdash; what to ask about each product type:
+- Specialized: `dishwasher.md`, `oven.md`, `refrigerator.md`, `washer.md`, `ac.md` &mdash; each with discovery questions, default specs, opinionated value model, and IL-specific pitfalls
+- Generic: `_generic-appliance.md`, `_generic-furniture.md`, `_generic-service.md` &mdash; fallbacks for items without a specialized skill
+
+**Market skill** (`skills/market/il.md`) &mdash; how to research Israeli retailers (Zap, Ksp, Bug, Ivory, Yad2), tashlumim handling, yevuan moy vs official import, haranha (installation) costs.
+
+**Core skills** (`skills/core/`):
+- `value-models.md` &mdash; TCO formulas + per-category lifespan/energy defaults
+- `glossary-il.md` &mdash; one-line definitions for IL home-buying terms (used inline by the agent)
+- `house-setup.md` &mdash; bootstraps a new house
+
 ### Use a different region
 
-The bundled market skill is for Israel (`skills/market/il.md`). To use elsewhere, drop a new file `skills/market/<your-country>.md` modeled on the IL one — list your local price comparators, retailers, electrical specs, and market quirks. The category skills are universal — they describe products, not markets.
+The bundled market skill is for Israel (`skills/market/il.md`). To use elsewhere, drop a new file `skills/market/<your-country>.md` modeled on the IL one &mdash; list your local price comparators, retailers, electrical specs, and market quirks. The category skills are universal &mdash; they describe products, not markets.
 
 ### Add a category skill
 
