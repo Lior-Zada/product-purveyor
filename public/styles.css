@@ -462,8 +462,99 @@ a.reviews-source::after { content: '↗'; font-size: 0.85em; opacity: 0.6; margi
 .md-body strong { color: var(--ink); }
 
 .edit-hint {
-  color: var(--ink-3); font-size: 0.85rem; margin-top: 32px;
+  color: var(--ink-3); font-size: 0.85rem; margin-top: 12px;
   padding: 14px 18px; background: var(--bg-subtle);
   border-radius: var(--radius); display: flex; align-items: center; gap: 8px;
 }
 .edit-hint code { background: var(--bg-elev); }
+
+/* House tabs (Overview / Timeline) */
+.house-tabs {
+  display: flex; gap: 6px; margin: 12px 0 16px;
+}
+.house-tabs a {
+  padding: 6px 14px; border-radius: 100px;
+  background: var(--bg-subtle); color: var(--ink-2);
+  text-decoration: none; font-size: 0.85rem; font-weight: 600;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+}
+.house-tabs a:hover { background: var(--accent-soft); color: var(--accent); }
+.house-tabs a.active {
+  background: var(--accent); color: var(--accent-on);
+}
+.house-tabs a.active:hover { background: var(--accent-hover); }
+
+/* Timeline list */
+.timeline-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.timeline-list li {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; background: var(--bg-elev);
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  flex-wrap: wrap;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s;
+}
+.timeline-list li:hover { border-color: var(--line-strong); }
+.timeline-list li a {
+  color: var(--ink); text-decoration: none;
+}
+.timeline-list li a:hover { color: var(--accent); }
+.timeline-list li strong { font-weight: 600; }
+.timeline-list li .due {
+  color: var(--ink-3); font-size: 0.85rem;
+  margin-left: auto; font-variant-numeric: tabular-nums;
+}
+
+/* Decided not to buy */
+.skipped-section {
+  margin-top: 32px; background: var(--bg-elev);
+  border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px 20px; box-shadow: var(--shadow-sm);
+}
+.skipped-section summary {
+  cursor: pointer; font-weight: 600; color: var(--ink-2);
+  font-size: 0.9rem; user-select: none;
+  list-style: none;
+  display: flex; align-items: center; gap: 8px;
+}
+.skipped-section summary::before {
+  content: '\25B8';   /* right-pointing triangle */
+  color: var(--ink-3); transition: transform 0.15s;
+}
+.skipped-section[open] summary::before { transform: rotate(90deg); }
+.skipped-section[open] summary { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.skipped-section summary:hover { color: var(--ink); }
+.skipped-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
+.skipped-list li {
+  padding: 12px 0; border-bottom: 1px dashed var(--line);
+}
+.skipped-list li:last-child { border-bottom: none; padding-bottom: 0; }
+.skipped-list li a { color: var(--ink); text-decoration: none; }
+.skipped-list li a:hover { color: var(--accent); }
+.skipped-list li strong { font-weight: 600; }
+.skipped-list .skip-reason {
+  font-size: 0.875rem; color: var(--ink-3);
+  margin-top: 4px; line-height: 1.45;
+}
+
+/* Refresh prices button + action row */
+.action-row {
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 32px; flex-wrap: wrap;
+}
+.refresh-btn {
+  background: transparent; border: 1px solid var(--line);
+  color: var(--ink-2); padding: 8px 14px;
+  border-radius: var(--radius-sm); font-size: 0.85rem;
+  cursor: pointer; font-family: inherit;
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: all 0.15s;
+}
+.refresh-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.refresh-hint {
+  font-size: 0.85rem; color: var(--ink-3);
+  transition: opacity 0.2s;
+}
+.refresh-hint.ok { color: var(--green); }
+.refresh-hint.err { color: var(--red); }

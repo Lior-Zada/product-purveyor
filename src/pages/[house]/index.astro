@@ -21,17 +21,34 @@ const FURNITURE_CATEGORIES = new Set([
   'couch', 'sofa', 'bed', 'mattress', 'dining-table', 'table', 'chair', 'dresser', 'wardrobe', 'desk', 'bookshelf'
 ]);
 
+const activeItems = items.filter((i) => i.status !== 'skipped');
+const skippedItems = items.filter((i) => i.status === 'skipped');
+
 const grouped = {
-  Appliances: items.filter((i) => i.type === 'buy' && !FURNITURE_CATEGORIES.has(i.category ?? '')),
-  Furniture: items.filter((i) => i.type === 'buy' && FURNITURE_CATEGORIES.has(i.category ?? '')),
-  'One-time services': items.filter((i) => i.type === 'book'),
-  'Recurring services': items.filter((i) => i.type === 'subscribe'),
+  Appliances: activeItems.filter((i) => i.type === 'buy' && !FURNITURE_CATEGORIES.has(i.category ?? '')),
+  Furniture: activeItems.filter((i) => i.type === 'buy' && FURNITURE_CATEGORIES.has(i.category ?? '')),
+  'One-time services': activeItems.filter((i) => i.type === 'book'),
+  'Recurring services': activeItems.filter((i) => i.type === 'subscribe'),
 };
+
+function firstSkipReason(body: string): string {
+  return body
+    .split('\n')
+    .map((l) => l.trim())
+    .filter((l) => l && !l.startsWith('#'))
+    .slice(0, 1)
+    .join(' ')
+    .slice(0, 200);
+}
 ---
 <Layout title={`${house.name} — Product Purveyor`}>
   <nav><a href="/">&larr; all houses</a></nav>
   <header>
     <h1>{house.name}</h1>
+    <div class="house-tabs">
+      <a href={`/${house.slug}/`} class="active">Overview</a>
+      <a href={`/${house.slug}/timeline/`}>Timeline</a>
+    </div>
     <dl class="house-meta">
       {house.address && <><dt>Address</dt><dd>{house.address}</dd></>}
       {house.sqm && <><dt>Size</dt><dd>{house.sqm} sqm</dd></>}
@@ -51,7 +68,23 @@ const grouped = {
     </section>
   ))}
 
-  {items.length === 0 && (
+  {activeItems.length === 0 && (
     <p class="empty">No items yet. Use Claude Code: <code>Research a &lt;category&gt; for {house.name}</code>.</p>
+  )}
+
+  {skippedItems.length > 0 && (
+    <details class="skipped-section">
+      <summary>Decided not to buy ({skippedItems.length})</summary>
+      <ul class="skipped-list">
+        {skippedItems.map((item) => (
+          <li>
+            <a href={`/${house.slug}/items/${item.slug}/`}>
+              <strong>{item.title}</strong>
+            </a>
+            {item.body && <p class="skip-reason">{firstSkipReason(item.body)}</p>}
+          </li>
+        ))}
+      </ul>
+    </details>
   )}
 </Layout>

@@ -51,6 +51,10 @@ For the `selected` option only, also populate **`features`** — what makes this
 
 If you can't find an image, reviews, or a link for an option, leave the field out rather than fabricating. The viewer handles missing values gracefully.
 
+**Use literal Unicode characters in markdown body and frontmatter strings, not HTML entities.** Astro's auto-escape and `marked`'s default renderer don't decode HTML entities consistently — `&mdash;` shows as literal `&mdash;` text, not as an em-dash. Use the actual characters: `—` (em-dash, U+2014), `–` (en-dash, U+2013), `…` (ellipsis), `₪` (shekel), `"` `"` (curly quotes), etc.
+
+**Avoid single tildes (`~`)** in `why_skipped`, `features.detail`, and other text rendered through `marked.parseInline`. Marked's GFM extension can interpret stretches between two tildes as strikethrough. Write *"around 5 years"* or *"approx. 44dB"* instead of *"~5y"* and *"~44dB"*.
+
 ## Workflow on "Research an X"
 
 1. **Identify the target house.** If the user has one house, use it. If multiple, ask once.

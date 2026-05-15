@@ -9,15 +9,35 @@ const priceLabel = selected.monthly_ils
     ? `₪${selected.price_ils.toLocaleString()}`
     : null;
 const reviews = selected.reviews;
+function stripInlineMarkdown(s: string): string {
+  return s
+    .replace(/\*\*(.+?)\*\*/g, '$1')        // **bold**
+    .replace(/__(.+?)__/g, '$1')             // __bold__
+    .replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '$1')  // *italic*
+    .replace(/(?<!_)_([^_]+?)_(?!_)/g, '$1') // _italic_
+    .replace(/`([^`]+?)`/g, '$1')            // `code`
+    .replace(/&mdash;/g, '—')
+    .replace(/&ndash;/g, '–')
+    .replace(/&amp;/g, '&')
+    .replace(/&hellip;/g, '…')
+    .replace(/&quot;/g, '"')
+    .replace(/&ldquo;|&rdquo;/g, '"')
+    .replace(/&lsquo;|&rsquo;/g, "'")
+    .replace(/&#8362;|&pound;/g, '₪')       // shekel (the &pound; is a typo guard)
+    .replace(/&#8212;/g, '—')
+    .replace(/&#8211;/g, '–');
+}
+
 const firstLine = item.body
-  ? item.body
-      .split('\n')
-      .map((l) => l.trim())
-      .filter((l) => l && !l.startsWith('#'))
-      .slice(0, 2)
-      .join(' ')
-      .replace(/^[-*]\s*/, '')
-      .slice(0, 160)
+  ? stripInlineMarkdown(
+      item.body
+        .split('\n')
+        .map((l) => l.trim())
+        .filter((l) => l && !l.startsWith('#'))
+        .slice(0, 2)
+        .join(' ')
+        .replace(/^[-*]\s*/, ''),
+    ).slice(0, 160)
   : '';
 const imageStyle = selected.image_url ? `background-image: url('${selected.image_url}');` : '';
 ---

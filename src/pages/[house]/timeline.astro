@@ -1,0 +1,84 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { listHouses, loadHouse, listItems, formatDate } from '../../lib/houses';
+import type { Item } from '../../lib/houses';
+
+export function getStaticPaths() {
+  return listHouses().map((h) => ({ params: { house: h.slug } }));
+}
+
+const { house: houseSlug } = Astro.params;
+const house = loadHouse(houseSlug!);
+const items = listItems(houseSlug!).filter((i) => i.status !== 'skipped');
+
+if (!house) {
+  return Astro.redirect('/');
+}
+
+const SEQUENCES = ['pre-move', 'first-30-days', 'later'] as const;
+const SEQUENCE_LABELS: Record<string, string> = {
+  'pre-move': 'Pre-move (must be ready before move-in)',
+  'first-30-days': 'First 30 days (settle-in priorities)',
+  'later': 'Later (nice-to-haves and ongoing)',
+};
+
+function dueDate(item: Item): string | undefined {
+  return (item.required_by as string | undefined) || (item.date_needed as string | undefined);
+}
+
+function dueDateAsString(item: Item): string {
+  const d = dueDate(item);
+  if (!d) return '';
+  if (d instanceof Date) return d.toISOString().slice(0, 10);
+  return String(d);
+}
+
+const grouped: Record<string, Item[]> = {};
+for (const seq of SEQUENCES) {
+  grouped[seq] = items
+    .filter((i) => (i.sequence ?? 'later') === seq)
+    .sort((a, b) => {
+      const da = dueDateAsString(a);
+      const db = dueDateAsString(b);
+      if (!da && !db) return 0;
+      if (!da) return 1;
+      if (!db) return -1;
+      return da.localeCompare(db);
+    });
+}
+
+const noSequenceItems = items.filter((i) => !i.sequence);
+---
+<Layout title={`Timeline — ${house.name}`}>
+  <nav><a href="/">&larr; all houses</a></nav>
+  <header>
+    <h1>{house.name}</h1>
+    <div class="house-tabs">
+      <a href={`/${house.slug}/`}>Overview</a>
+      <a href={`/${house.slug}/timeline/`} class="active">Timeline</a>
+    </div>
+    <p class="meta">Items sequenced by purchase priority. Within each section, sorted by required date.</p>
+  </header>
+
+  {SEQUENCES.map((seq) => grouped[seq].length > 0 && (
+    <section>
+      <h2>{SEQUENCE_LABELS[seq]}</h2>
+      <ul class="timeline-list">
+        {grouped[seq].map((item) => (
+          <li>
+            <span class={`badge status-${item.status}`}>{item.status}</span>
+            <a href={`/${house.slug}/items/${item.slug}/`}>
+              <strong>{item.title}</strong>
+            </a>
+            {item.priority && <span class="badge priority">{item.priority}</span>}
+            {dueDate(item) && <span class="due">due {formatDate(dueDate(item))}</span>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  {items.length === 0 && (
+    <p class="empty">No items yet. Add items via Claude Code, then come back here to see them sequenced.</p>
+  )}
+</Layout>

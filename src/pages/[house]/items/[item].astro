@@ -31,6 +31,11 @@ const energy = item.energy ?? {};
 const constraints = (item.constraints ?? {}) as Record<string, unknown>;
 const selectedImageStyle = selected.image_url ? `background-image: url('${selected.image_url}');` : '';
 
+function inline(s: string | undefined): string {
+  if (!s) return '';
+  return marked.parseInline(s) as string;
+}
+
 const verifiedDays = daysSince(selected.link_verified_date);
 const verifiedStale = verifiedDays !== undefined && verifiedDays > 60;
 ---
@@ -140,7 +145,7 @@ const verifiedStale = verifiedDays !== undefined && verifiedDays > 60;
                       )}
                     </div>
                   </div>
-                  {alt.why_skipped && <p class="alt-why">{alt.why_skipped}</p>}
+                  {alt.why_skipped && <p class="alt-why" set:html={inline(alt.why_skipped)} />}
                 </>
               );
               return alt.product_url
@@ -174,7 +179,7 @@ const verifiedStale = verifiedDays !== undefined && verifiedDays > 60;
                       )}
                     </div>
                   </div>
-                  {u.why_skipped && <p class="alt-why">{u.why_skipped}</p>}
+                  {u.why_skipped && <p class="alt-why" set:html={inline(u.why_skipped)} />}
                 </>
               );
               return u.product_url
@@ -243,7 +248,47 @@ const verifiedStale = verifiedDays !== undefined && verifiedDays > 60;
     </aside>
   </div>
 
+  <div class="action-row">
+    <button class="refresh-btn" id="refresh-prices" type="button">
+      &#8634; Refresh prices via Claude Code
+    </button>
+    <span class="refresh-hint" id="refresh-hint"></span>
+  </div>
+
   <p class="edit-hint">
     To edit, open <code>houses/{house.slug}/items/{item.slug}.md</code> in your editor &mdash; or ask Claude Code: <code>Update the {item.title.toLowerCase()} for {house.name}</code>.
   </p>
+
+  <script is:inline define:vars={{ itemTitle: item.title, houseName: house.name, itemSlug: item.slug, houseSlug: house.slug, itemPath: item.type === 'book' ? `services/one-time/${item.slug}.md` : item.type === 'subscribe' ? `services/recurring/${item.slug}.md` : `items/${item.slug}.md` }}>
+    (function () {
+      const btn = document.getElementById('refresh-prices');
+      const hint = document.getElementById('refresh-hint');
+      if (!btn) return;
+      btn.addEventListener('click', async () => {
+        const prompt = `Refresh prices and links for "${itemTitle}" in "${houseName}".
+
+Re-run the IL availability search per skills/market/il.md (Hebrew search + popularity sort + WebFetch verification). For the selected option and each entry in alternatives_considered and upsell_considered:
+1. Re-verify product_url with WebFetch — confirm vendors are listed
+2. Update price_ils with the current cheapest verified price
+3. Update link_verified_date to today
+4. If the SKU is no longer in IL retail, find the closest current equivalent and update model + product_url
+
+Item file: houses/${houseSlug}/${itemPath}`;
+        try {
+          await navigator.clipboard.writeText(prompt);
+          if (hint) {
+            hint.textContent = '✓ Prompt copied — paste into Claude Code';
+            hint.className = 'refresh-hint ok';
+            setTimeout(() => { hint.textContent = ''; hint.className = 'refresh-hint'; }, 4000);
+          }
+        } catch (e) {
+          if (hint) {
+            hint.textContent = 'Copy failed — see console';
+            hint.className = 'refresh-hint err';
+          }
+          console.log('Refresh prompt:\n' + prompt);
+        }
+      });
+    })();
+  </script>
 </Layout>
