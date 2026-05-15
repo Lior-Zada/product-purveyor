@@ -87,9 +87,10 @@ When writing the item file, ensure:
 
 - `category: dishwasher`
 - `constraints` includes `width_cm` and `place_settings_min`
-- `selected` has `brand`, `model`, `price_ils`, `vendor`, `product_url`, `image_url`, `warranty`, `tashlumim_available`
-- `selected.reviews` with `average_score`, `total_reviews`, ≥2 `sources`, 2&ndash;3 `quotes` (mix sentiment — at least one negative if any exists)
-- `alternatives_considered` populated with 2&ndash;3 options, each with the same review/image structure plus `why_skipped` (one specific sentence — not generic)
+- `selected` has `brand`, `model`, `price_ils`, `vendor`, `product_url`, `image_url`, `warranty`, `tashlumim_available`, `link_verified_date` (today's date)
+- `selected.features` &mdash; 4&ndash;6 `{ name, detail }` entries. For dishwashers always cover: noise level, interior material (steel vs plastic), third tray, leak protection (AquaStop or equivalent), motor type (brushless EcoSilence / equivalent), drying tech (PerfectDry / zeolith / heat exchange) where applicable. Each `detail` should explain *why it matters*, not just what it is.
+- `selected.reviews` with `average_score`, `total_reviews`, &ge;2 `sources` (each with `url`), 2&ndash;3 `quotes` (mix sentiment &mdash; at least one negative if any exists, each with `source_url` when available)
+- `alternatives_considered` populated with 2&ndash;3 options, each with full review/image structure plus `why_skipped`. The `why_skipped` should reference a *concrete*, *specific* failure mode or downside &mdash; not generic ("worse value"). For dishwashers, examples of good `why_skipped`: *"48dB and known for pump failures around year 5"*, *"plastic interior, no third tray"*.
 - `upsell_considered` populated if a candidate exists, with same structure
 - `energy.kwh_per_year` and `energy.est_annual_cost_ils` populated
 - `expected_lifespan_years` populated (use defaults above unless evidence suggests otherwise)

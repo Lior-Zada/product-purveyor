@@ -9,11 +9,13 @@ export interface ReviewSource {
   score: number;
   score_max?: number;
   count?: number;
+  url?: string;
 }
 
 export interface ReviewQuote {
   quote: string;
   source: string;
+  source_url?: string;
   sentiment?: 'positive' | 'negative' | 'mixed';
 }
 
@@ -23,6 +25,11 @@ export interface Reviews {
   total_reviews?: number;
   sources?: ReviewSource[];
   quotes?: ReviewQuote[];
+}
+
+export interface Feature {
+  name: string;
+  detail?: string;
 }
 
 export interface Option {
@@ -38,6 +45,8 @@ export interface Option {
   warranty?: string;
   tashlumim_available?: number;
   reviews?: Reviews;
+  features?: Feature[];
+  link_verified_date?: string | Date;
   why_skipped?: string;
   contact?: string;
   start_date?: string;
@@ -237,4 +246,12 @@ export function formatDate(d: string | Date | undefined | null): string | undefi
     return `${y}-${m}-${day}`;
   }
   return String(d);
+}
+
+// Days between a verification date and today. Used to flag stale links.
+export function daysSince(d: string | Date | undefined | null, now: Date = new Date()): number | undefined {
+  if (!d) return undefined;
+  const date = d instanceof Date ? d : new Date(d);
+  if (isNaN(date.getTime())) return undefined;
+  return Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
 }

@@ -1,4 +1,5 @@
 ---
+import Layout from '../../layouts/Layout.astro';
 import { listHouses, loadHouse, loadBudget, listItems, formatDate } from '../../lib/houses';
 import ItemCard from '../../components/ItemCard.astro';
 import BudgetPanel from '../../components/BudgetPanel.astro';
@@ -27,40 +28,30 @@ const grouped = {
   'Recurring services': items.filter((i) => i.type === 'subscribe'),
 };
 ---
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width" />
-  <title>{house.name} — Product Purveyor</title>
-  <link rel="stylesheet" href="/styles.css" />
-</head>
-<body>
-  <main>
-    <nav><a href="/">← all houses</a></nav>
-    <header>
-      <h1>{house.name}</h1>
-      <dl class="house-meta">
-        {house.address && <><dt>Address</dt><dd>{house.address}</dd></>}
-        {house.sqm && <><dt>Size</dt><dd>{house.sqm} sqm</dd></>}
-        {house.household_size && <><dt>Household</dt><dd>{house.household_size}</dd></>}
-        {house.move_in_date && <><dt>Move-in</dt><dd>{formatDate(house.move_in_date)}</dd></>}
-      </dl>
-    </header>
+<Layout title={`${house.name} — Product Purveyor`}>
+  <nav><a href="/">&larr; all houses</a></nav>
+  <header>
+    <h1>{house.name}</h1>
+    <dl class="house-meta">
+      {house.address && <><dt>Address</dt><dd>{house.address}</dd></>}
+      {house.sqm && <><dt>Size</dt><dd>{house.sqm} sqm</dd></>}
+      {house.household_size && <><dt>Household</dt><dd>{house.household_size}</dd></>}
+      {house.move_in_date && <><dt>Move-in</dt><dd>{formatDate(house.move_in_date)}</dd></>}
+    </dl>
+  </header>
 
-    {budget && <BudgetPanel budget={budget} />}
+  {budget && <BudgetPanel budget={budget} />}
 
-    {Object.entries(grouped).map(([key, group]) => group.length > 0 && (
-      <section>
-        <h2>{key}</h2>
-        <div class="card-grid">
-          {group.map((item) => <ItemCard item={item} />)}
-        </div>
-      </section>
-    ))}
+  {Object.entries(grouped).map(([key, group]) => group.length > 0 && (
+    <section>
+      <h2>{key}</h2>
+      <div class="card-grid">
+        {group.map((item) => <ItemCard item={item} />)}
+      </div>
+    </section>
+  ))}
 
-    {items.length === 0 && (
-      <p class="empty">No items yet. Use Claude Code: <code>Research a &lt;category&gt; for {house.name}</code>.</p>
-    )}
-  </main>
-</body>
-</html>
+  {items.length === 0 && (
+    <p class="empty">No items yet. Use Claude Code: <code>Research a &lt;category&gt; for {house.name}</code>.</p>
+  )}
+</Layout>

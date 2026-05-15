@@ -28,18 +28,28 @@ For every item the user wants to buy, book, or subscribe to:
 - **Update `budget.md` after every committed decision.** Recompute breakdown sums, electrical amperage, kitchen counter cm.
 - **Capture images, product URLs, and reviews for every option** — selected, alternatives, and upsell candidates. The viewer renders these visually. See "Reviews and images" below.
 
-## Reviews and images
+## Reviews, images, features, and links
 
 For every option you record (`selected`, each `alternatives_considered` entry, each `upsell_considered` entry):
 
-- **`product_url`** — direct link to the product page on the vendor (where the user would actually buy). Not the vendor's homepage.
+- **`product_url`** — direct link to the product page on the vendor (where the user would actually buy). Not the vendor's homepage. **Always include `link_verified_date: YYYY-MM-DD`** alongside, set to today. The viewer flags links unverified for >60 days as potentially stale.
+  - If you can't find a stable vendor product URL, fall back to a Zap search URL: `https://www.zap.co.il/search.aspx?keyword=<Brand>+<Model>` — this stays valid even if vendor URLs change.
+  - When the user asks to refresh an item, re-resolve `product_url` and update `link_verified_date`.
 - **`image_url`** — primary product image, hot-linked from the vendor product page or the manufacturer's CDN. Pick a clean front shot if multiple options exist.
 - **`reviews`** — aggregate from at least 2 sources when possible:
   - `average_score`, `score_max` (typically 5; international sites often use 10), `total_reviews`
-  - `sources`: list of `{ site, score, score_max?, count? }` — name the sites by domain (e.g., `zap.co.il`, `ksp.co.il`, `rtings.com`, `wirecutter`, `amazon.com`)
-  - `quotes`: 2&ndash;3 verbatim quotes that capture what's distinctive about the product (good and bad). Tag each with `sentiment: positive | negative | mixed`. Prefer specific, concrete quotes (e.g., *"Pump failed at year 5"*) over generic praise (*"Great product"*).
+  - `sources`: list of `{ site, score, score_max?, count?, url? }`. **Always include `url`** — the source pills become clickable links to the actual review pages. Name sites by domain (e.g., `zap.co.il`, `ksp.co.il`, `rtings.com`, `wirecutter`, `amazon.com`).
+  - `quotes`: 2&ndash;3 verbatim quotes that capture what's distinctive (good and bad). Tag each with `sentiment: positive | negative | mixed`. **Include `source_url`** if you can link to the page where the quote lives. Prefer specific, concrete quotes (e.g., *"Pump failed at year 5"*) over generic praise (*"Great product"*).
 
-If you can't find an image or reviews for an option, leave the field out rather than fabricating. The viewer handles missing images gracefully.
+For the `selected` option only, also populate **`features`** — what makes this product distinctive and why it beats the alternatives:
+
+- 4&ndash;6 entries, each `{ name, detail }`.
+- The `name` is the headline (e.g., *"42dB noise level"*, *"AquaStop leak protection"*).
+- The `detail` explains why it matters — not just what it is. *"Sensor cuts water supply if a hose ruptures. Rare but expensive when it happens"* beats *"Has anti-leak protection."*
+- Don't list trivia. Skip features the buyer wouldn't care about.
+- This is what the buyer reads to feel confident. Make it specific.
+
+If you can't find an image, reviews, or a link for an option, leave the field out rather than fabricating. The viewer handles missing values gracefully.
 
 ## Workflow on "Research an X"
 
@@ -93,21 +103,28 @@ selected:
   model: SPS6ZMI35E
   price_ils: 3890
   vendor: Bug
-  product_url: https://www.bug.co.il/products/...   # direct product page
-  image_url: https://...                              # primary product image
+  product_url: https://www.bug.co.il/products/...     # direct product page (or Zap search fallback)
+  image_url: https://...                                # primary product image
   warranty: official-import-3y
   tashlumim_available: 36
+  link_verified_date: 2026-05-15                        # when product_url was last checked
+  features:
+    - name: 42dB noise level
+      detail: Quietest in 45cm slim class. Each 3dB drop is roughly half the perceived loudness — meaningful in open-plan kitchens.
+    - name: AquaStop leak protection
+      detail: Sensor cuts water supply if a hose ruptures. Bosch backs this with a lifetime warranty against in-home water damage.
+    # ... 4-6 entries total, each name + detail
   reviews:
     average_score: 4.4
     score_max: 5
     total_reviews: 412
     sources:
-      - { site: zap.co.il, score: 4.5, count: 287 }
-      - { site: ksp.co.il, score: 4.3, count: 92 }
-      - { site: rtings.com, score: 8.6, score_max: 10, count: 33 }
+      - { site: zap.co.il, score: 4.5, count: 287, url: "https://www.zap.co.il/search.aspx?keyword=Bosch+SPS6ZMI35E" }
+      - { site: ksp.co.il, score: 4.3, count: 92, url: "https://ksp.co.il/web/..." }
+      - { site: rtings.com, score: 8.6, score_max: 10, count: 33, url: "https://www.rtings.com/..." }
     quotes:
-      - { quote: "Whisper quiet — barely hear it from the next room", source: zap.co.il, sentiment: positive }
-      - { quote: "Door panel scratched easily after 6 months", source: zap.co.il, sentiment: negative }
+      - { quote: "Whisper quiet — barely hear it from the next room", source: zap.co.il, source_url: "https://...", sentiment: positive }
+      - { quote: "Door panel scratched easily after 6 months", source: zap.co.il, source_url: "https://...", sentiment: negative }
 decision_date: 2026-05-20
 energy:
   kwh_per_year: 220
