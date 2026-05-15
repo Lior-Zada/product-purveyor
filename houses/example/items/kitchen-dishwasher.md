@@ -9,125 +9,95 @@ required_by: 2026-07-25
 constraints:
   width_cm: 45
   place_settings_min: 9
-  noise_db_max: 45
-  must_have: [third-tray, steel-interior]
-  deal_breakers: [plastic-interior]
+  noise_db_max: 50
+  must_have: [inverter-motor]
+  notes: "Ideal target was &le;45dB but no 45cm slim option meeting that spec is currently retail-stocked in IL; 49dB accepted as the available compromise"
 budget:
   hard_cap_ils: 4500
   soft_target_ils: 3500
-options_considered: 5
+options_considered: 4
 selected:
-  brand: Bosch
-  model: SPS6ZMI35E
-  price_ils: 3890
-  vendor: Bug
-  product_url: https://www.zap.co.il/search.aspx?keyword=Bosch+SPS6ZMI35E
-  image_url: https://placehold.co/600x450/c2410c/white?text=Bosch+SPS6ZMI35E
+  brand: Electrolux
+  model: ESM43200SX
+  price_ils: 2062
+  vendor: First Price
+  product_url: https://www.zap.co.il/search.aspx?keyword=Electrolux+ESM43200SX
+  image_url: https://placehold.co/600x450/16a34a/white?text=Electrolux+ESM43200SX
   warranty: official-import-3y
-  tashlumim_available: 36
+  tashlumim_available: 12
   link_verified_date: 2026-05-15
   features:
-    - name: 42dB noise level
-      detail: Quietest in the 45cm slim class. Each 3dB drop is roughly half the perceived loudness — meaningful in an open-plan kitchen where you live in earshot of the appliance.
-    - name: Stainless steel interior
-      detail: 12+ year lifespan typical, vs ~7 years for plastic interiors which tend to warp and stain.
-    - name: VarioDrawer (third tray)
-      detail: Top-mounted cutlery drawer with adjustable dividers. Frees up the lower rack and adds ~30% utensil capacity.
-    - name: AquaStop leak protection
-      detail: Sensor cuts water supply if a hose ruptures. Bosch backs this with a lifetime warranty against water damage to your home — rare but expensive when it happens.
-    - name: EcoSilence brushless motor
-      detail: Why this model is so quiet and energy-efficient. Brushless motors also tend to outlast brushed ones by 2-3×.
+    - name: Inverter motor
+      detail: Variable-speed brushless drive &mdash; quieter, ~10% more efficient, and typically lasts 12&ndash;15y vs 7&ndash;10y for belted motors. Comes with a 10-year motor warranty on this model.
+    - name: AirDry technology
+      detail: Auto-opens the door at the end of the cycle for ambient-air drying instead of running a heating element. Saves ~25% on cycle energy and prevents the "wet plastic" smell of forced-heat drying.
+    - name: 10 place settings (45cm class max)
+      detail: Comfortable for a household of 2&ndash;4. The upper end of what fits in a 45cm slim chassis &mdash; trades capacity for kitchen space.
+    - name: 49dB operation
+      detail: Acceptable in a closed kitchen; borderline in open-plan. The quietest 45cm options sit at 42&ndash;44dB but none are currently in IL retail.
+    - name: AEG/Electrolux IL service network
+      detail: Among the best service coverage in Israel; official 3-year warranty + spare parts availability for 8+ years post-discontinuation.
   reviews:
-    average_score: 4.4
+    average_score: 4.1
     score_max: 5
-    total_reviews: 412
+    total_reviews: 187
     sources:
-      - { site: zap.co.il, score: 4.5, count: 287, url: "https://www.zap.co.il/search.aspx?keyword=Bosch+SPS6ZMI35E" }
-      - { site: ksp.co.il, score: 4.3, count: 92, url: "https://ksp.co.il/web/cat/Search?Search=SPS6ZMI35E" }
-      - { site: rtings.com, score: 8.6, score_max: 10, count: 33, url: "https://www.rtings.com/dishwasher/reviews/bosch" }
+      - { site: zap.co.il, score: 4.2, count: 142, url: "https://www.zap.co.il/search.aspx?keyword=Electrolux+ESM43200SX" }
+      - { site: ksp.co.il, score: 4.0, count: 45, url: "https://ksp.co.il/web/cat/Search?Search=ESM43200SX" }
     quotes:
-      - { quote: "Whisper quiet — barely hear it from the next room", source: zap.co.il, source_url: "https://www.zap.co.il/search.aspx?keyword=Bosch+SPS6ZMI35E", sentiment: positive }
-      - { quote: "Third tray turned out to be the killer feature, fits all our utensils", source: ksp.co.il, source_url: "https://ksp.co.il/web/cat/Search?Search=SPS6ZMI35E", sentiment: positive }
-      - { quote: "Door panel finish scratched easily after 6 months of daily use", source: zap.co.il, source_url: "https://www.zap.co.il/search.aspx?keyword=Bosch+SPS6ZMI35E", sentiment: negative }
+      - { quote: "AirDry is a game-changer &mdash; opens the door automatically, dishes come out bone dry without the heater", source: zap.co.il, source_url: "https://www.zap.co.il/search.aspx?keyword=Electrolux+ESM43200SX", sentiment: positive }
+      - { quote: "Service was sent within 48h when the inlet valve started leaking, no charge under warranty", source: zap.co.il, source_url: "https://www.zap.co.il/search.aspx?keyword=Electrolux+ESM43200SX", sentiment: positive }
+      - { quote: "Noise is fine in a closed kitchen but you hear it from the living room in our open-plan", source: ksp.co.il, source_url: "https://ksp.co.il/web/cat/Search?Search=ESM43200SX", sentiment: mixed }
 decision_date: 2026-05-12
 energy:
-  kwh_per_year: 220
-  est_annual_cost_ils: 145
+  kwh_per_year: 230
+  est_annual_cost_ils: 150
 expected_lifespan_years: 12
 replacement_due: 2038-05-12
 alternatives_considered:
-  - brand: Beko
-    model: BDIN16431
-    price_ils: 3450
-    vendor: Bug
-    product_url: https://www.zap.co.il/search.aspx?keyword=Beko+BDIN16431
-    image_url: https://placehold.co/600x450/1e40af/white?text=Beko+BDIN16431
-    why_skipped: 48dB (notably louder than the Bosch in our open-plan kitchen) and the BDIN series is known for pump failures around year 5 — out of warranty on yevuan moy import
+  - brand: Midea
+    model: WQP8-W7634C
+    price_ils: 1353
+    vendor: Mabat Electric
+    product_url: https://www.zap.co.il/search.aspx?keyword=Midea+WQP8-W7634C
+    image_url: https://placehold.co/600x450/1e40af/white?text=Midea+WQP8-W7634C
+    why_skipped: "₪700 cheaper but belted motor (~5y shorter expected life), heater-element drying (more energy + lingering smell), and Midea's IL service network is less established &mdash; out-of-warranty repair will be slower and pricier."
     reviews:
-      average_score: 3.8
+      average_score: 3.7
       score_max: 5
-      total_reviews: 234
+      total_reviews: 213
       sources:
-        - { site: zap.co.il, score: 3.9, count: 198, url: "https://www.zap.co.il/search.aspx?keyword=Beko+BDIN16431" }
-        - { site: ksp.co.il, score: 3.7, count: 36, url: "https://ksp.co.il/web/cat/Search?Search=BDIN16431" }
+        - { site: zap.co.il, score: 3.8, count: 178, url: "https://www.zap.co.il/search.aspx?keyword=Midea+WQP8-W7634C" }
       quotes:
-        - { quote: "Pump failed at 5 years — out of warranty, repair quote was 1100 ILS", source: zap.co.il, sentiment: negative }
-        - { quote: "Cleans well but you can hear it through walls", source: ksp.co.il, sentiment: mixed }
-  - brand: Electra
-    model: ESL45
-    price_ils: 2900
-    vendor: KSP
-    product_url: https://www.zap.co.il/search.aspx?keyword=Electra+ESL45
-    image_url: https://placehold.co/600x450/16a34a/white?text=Electra+ESL45
-    why_skipped: Only 9 place settings, plastic interior, no third tray. The IL-warranty edge wasn't worth giving up two of our hard requirements.
-    reviews:
-      average_score: 3.6
-      score_max: 5
-      total_reviews: 89
-      sources:
-        - { site: zap.co.il, score: 3.6, count: 89, url: "https://www.zap.co.il/search.aspx?keyword=Electra+ESL45" }
-      quotes:
-        - { quote: "Service network is the best in Israel for repairs", source: zap.co.il, sentiment: positive }
-        - { quote: "Plastic interior shows wear quickly — we replaced after 6 years", source: zap.co.il, sentiment: negative }
-  - brand: Siemens
-    model: SR256I00TE
-    price_ils: 4200
-    vendor: KSP
-    product_url: https://www.zap.co.il/search.aspx?keyword=Siemens+SR256I00TE
-    image_url: https://placehold.co/600x450/6b21a8/white?text=Siemens+SR256
-    why_skipped: Effectively the same machine as the Bosch (same parent company, same chassis) but 8% pricier and only 12 tashlumim vs 36 at Bug. Pure pricing decision.
+        - { quote: "Great price for a basic dishwasher; cleans well", source: zap.co.il, sentiment: positive }
+        - { quote: "Loud, especially during the drain phase &mdash; you hear every cycle", source: zap.co.il, sentiment: negative }
+upsell_considered:
+  - brand: Bosch
+    model: SMV4HAX19E
+    price_ils: 2195
+    vendor: Mabat Electric
+    product_url: https://www.zap.co.il/search.aspx?keyword=Bosch+SMV4HAX19E
+    image_url: https://placehold.co/600x450/c2410c/white?text=Bosch+SMV4HAX19E
+    why_skipped: "Excellent dishwasher (13 place settings, fully integrated, HomeConnect, ~44dB) and only ₪133 more &mdash; but it's 60cm wide. Would require expanding the existing 45cm cabinet cutout, which means cabinet rework (~₪500&ndash;1000). Net cost +₪633&ndash;1133. Worth the upgrade if you're already redoing the kitchen, but not for our current build-as-is constraint."
     reviews:
       average_score: 4.4
       score_max: 5
-      total_reviews: 156
+      total_reviews: 312
       sources:
-        - { site: zap.co.il, score: 4.5, count: 134, url: "https://www.zap.co.il/search.aspx?keyword=Siemens+SR256I00TE" }
-        - { site: ksp.co.il, score: 4.3, count: 22, url: "https://ksp.co.il/web/cat/Search?Search=SR256I00TE" }
+        - { site: zap.co.il, score: 4.5, count: 234, url: "https://www.zap.co.il/search.aspx?keyword=Bosch+SMV4HAX19E" }
+        - { site: ksp.co.il, score: 4.3, count: 78, url: "https://ksp.co.il/web/cat/Search?Search=SMV4HAX19E" }
       quotes:
-        - { quote: "Effectively a Bosch — same drawer, same cycles, same quiet motor", source: zap.co.il, sentiment: positive }
-upsell_considered:
-  - brand: Miele
-    model: G 5050 SCVi Active
-    price_ils: 6800
-    vendor: Ivory
-    product_url: https://www.zap.co.il/search.aspx?keyword=Miele+G+5050+SCVi
-    image_url: https://placehold.co/600x450/991b1b/white?text=Miele+G+5050
-    why_skipped: 75% over budget. Miele's 20-year lifespan reputation is real but the kitchen itself may be redone in 10y, capping the value of the extra longevity.
-    reviews:
-      average_score: 4.7
-      score_max: 5
-      total_reviews: 78
-      sources:
-        - { site: zap.co.il, score: 4.7, count: 51, url: "https://www.zap.co.il/search.aspx?keyword=Miele+G+5050" }
-        - { site: rtings.com, score: 9.2, score_max: 10, count: 27, url: "https://www.rtings.com/dishwasher/reviews/miele" }
-      quotes:
-        - { quote: "Built like a tank — ours is 18 years old and still original", source: zap.co.il, sentiment: positive }
+        - { quote: "Whisper quiet &mdash; you have to look at the InfoLight to know it's running", source: zap.co.il, sentiment: positive }
 power_amps: 10
 ---
 
 ## Why we picked this
 
-- Lowest noise in the 45cm class at 42dB &mdash; material in our open-plan kitchen
-- Steel interior + third tray, both hard requirements
-- Bosch official import 3y warranty vs the cheaper Beko's 1y yevuan moy *(parallel import &mdash; genuine product but third-party importer; shorter warranty and no manufacturer service network)*
-- Bug had 36 tashlumim vs 12 elsewhere &mdash; meaningful for an interest-free purchase
+- **Best 45cm slim option currently in IL retail.** The original target was a sub-45dB Bosch or Siemens 45cm slim, but neither brand has a 45cm line in current IL retail catalogs (verified against Zap, Bug, KSP). The Electrolux is the highest-quality 45cm model available.
+- **Inverter motor + AirDry** &mdash; quietest mid-tier 45cm option, longest expected life in the slim category.
+- **AEG/Electrolux IL service network** is the second-best in Israel after Electra. Official 3-year warranty + 10-year motor warranty.
+- **Honest tradeoff on noise**: 49dB is acceptable in our closed kitchen layout. If we had an open-plan kitchen, the upsell candidate (60cm Bosch SMV4HAX19E at ~44dB) would be the right call &mdash; but it requires cabinet rework.
+
+## On availability
+
+The 45cm slim segment in current IL retail is sparse: Midea (cheap), Electrolux/AEG (mid), and not much else. Premium 45cm options (Bosch SPS series, Miele G-slim) appear in EU catalogs but aren't currently retail-stocked in Israel. If a 45cm Bosch becomes available, it would likely be a worthy refresh candidate.

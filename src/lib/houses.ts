@@ -35,7 +35,8 @@ export interface Feature {
 export interface Option {
   brand?: string;
   provider?: string;
-  model?: string;
+  model?: string;          // IL retail catalog SKU — what users actually search/buy with
+  model_global?: string;   // optional global/EU SKU for international review cross-reference
   price_ils?: number;
   monthly_ils?: number;
   vendor?: string;

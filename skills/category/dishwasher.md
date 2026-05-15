@@ -87,8 +87,11 @@ When writing the item file, ensure:
 
 - `category: dishwasher`
 - `constraints` includes `width_cm` and `place_settings_min`
-- `selected` has `brand`, `model`, `price_ils`, `vendor`, `product_url`, `image_url`, `warranty`, `tashlumim_available`, `link_verified_date` (today's date)
-- `selected.features` &mdash; 4&ndash;6 `{ name, detail }` entries. For dishwashers always cover: noise level, interior material (steel vs plastic), third tray, leak protection (AquaStop or equivalent), motor type (brushless EcoSilence / equivalent), drying tech (PerfectDry / zeolith / heat exchange) where applicable. Each `detail` should explain *why it matters*, not just what it is.
+- **`model` is the IL retail SKU** (e.g., `SMV4HAX19E` for IL Bosch, `ESM43200SX` for Electrolux). NOT the EU global code (e.g., `SPS6ZMI35E`) &mdash; those don't appear in IL retail catalogs. See `skills/market/il.md` "IL Bosch SKU prefixes" and the IL-first methodology.
+- `model_global` is optional &mdash; only set if you've confirmed the global equivalent for review cross-reference.
+- `selected` has `brand`, `model` (IL SKU), `price_ils`, `vendor`, `product_url`, `image_url`, `warranty`, `tashlumim_available`, `link_verified_date` (today's date, set only after WebFetch verified the URL returns vendors)
+- **Verify `product_url` with WebFetch** before recording. If Zap returns *"&#1500;&#1488; &#1504;&#1502;&#1510;&#1488;&#1493; &#1514;&#1493;&#1510;&#1488;&#1493;&#1514;"*, the SKU isn't IL-stocked &mdash; revise. If you can't get a verifiable URL after 2 tries, fall back to the catalog page `https://www.zap.co.il/models.aspx?sog=e-dishwasher` and note this in body prose.
+- `selected.features` &mdash; 4&ndash;6 `{ name, detail }` entries. For dishwashers always cover: noise level, interior material (steel vs plastic), third tray, leak protection (AquaStop or equivalent), motor type (inverter / brushless / belted), drying tech (PerfectDry / zeolith / AirDry / heat-element) where applicable. Each `detail` should explain *why it matters*, not just what it is.
 - `selected.reviews` with `average_score`, `total_reviews`, &ge;2 `sources` (each with `url`), 2&ndash;3 `quotes` (mix sentiment &mdash; at least one negative if any exists, each with `source_url` when available)
 - `alternatives_considered` populated with 2&ndash;3 options, each with full review/image structure plus `why_skipped`. The `why_skipped` should reference a *concrete*, *specific* failure mode or downside &mdash; not generic ("worse value"). For dishwashers, examples of good `why_skipped`: *"48dB and known for pump failures around year 5"*, *"plastic interior, no third tray"*.
 - `upsell_considered` populated if a candidate exists, with same structure

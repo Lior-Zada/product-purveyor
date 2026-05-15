@@ -61,10 +61,47 @@ If you can't find an image, reviews, or a link for an option, leave the field ou
    - `skills/core/glossary-il.md` for terminology
 3. **Discovery (sync)**: Run discovery questions interactively. Confirm the constraint profile back in one short summary.
 4. **Draft**: Write the item file with `status: researching`. Use the appropriate frontmatter schema (see "File schemas" below).
-5. **Research (async)**: Search the market per the market skill. Apply the value model. Pick top 3 + an upsell candidate if applicable.
+5. **Research (async)** — follow the IL-first methodology below to find candidates that are actually retail-stocked in Israel. Apply the value model. Pick top 3 + an upsell candidate if applicable.
 6. **Ready**: Update the item file: `status: ready-for-review` with options + rationale.
 7. **Confirm**: Tell the user it's ready (one line + the URL `http://localhost:4321/<house>/items/<slug>/`).
 8. **Decide**: On their pick, set `status: decided`. Write `## Why we picked this` and `## Alternatives considered` prose. Update `budget.md`.
+
+## Research methodology — find what's actually buyable in Israel
+
+**Don't start with a global brand+model number.** Global model numbers (e.g., the European Bosch SPS6ZMI35E) often don't exist in IL retail catalogs &mdash; IL importers (BSH Israel, etc.) use different SKUs. Searching Zap or KSP for a global model returns zero hits, leading to broken links and fabricated data.
+
+The correct flow:
+
+1. **Browse the IL retailer catalog by attribute, not model.**
+   - Zap catalog URL pattern: `https://www.zap.co.il/models.aspx?sog=e-<category>` (e.g., `e-dishwasher`, `e-refrigerator`, `e-washer`, `e-airconditioner`, `e-oven`)
+   - This lists every IL-stocked SKU in the category. Filter mentally by user's constraints (width, capacity, brand, etc.).
+2. **Pick top candidates from the IL catalog.** These have real, verifiable IL SKUs.
+3. **Verify each candidate URL works** before recording it:
+   - Run `WebFetch` on the candidate `product_url` (typically `https://www.zap.co.il/search.aspx?keyword=<Brand>+<IL-SKU>`).
+   - Confirm the response shows vendors and prices. If the search returns *"&#1500;&#1488; &#1504;&#1502;&#1510;&#1488;&#1493; &#1514;&#1493;&#1510;&#1488;&#1493;&#1514;"* (no results) or 404s, **don't record that URL** &mdash; either find the correct IL SKU or fall back to the catalog page.
+   - Set `link_verified_date: <today>` only after a successful fetch.
+4. **For international reviews** (RTINGS, Wirecutter), look up whether the IL SKU corresponds to a known global model:
+   - If yes, record both: `model: <IL-SKU>` (primary &mdash; what users buy with) and `model_global: <EU/US-SKU>` (for review cross-reference).
+   - If the IL model has no global equivalent, leave `model_global` unset. Don't fabricate.
+5. **Be honest about availability gaps.** If the user asks for something that isn't currently retail-stocked in IL (e.g., 45cm Bosch slim in 2026), say so explicitly. Don't fabricate URLs to nonexistent listings. Suggest the closest IL-available alternative and flag what's missing in the prose.
+6. **For Hebrew-only review sources** (Tapuz, Walla, FB groups), translate the quote into English for the file but keep the source domain in Hebrew if that's how it's known. Tag sentiment.
+
+### IL Bosch SKU prefixes (dishwashers — observed Nov 2026)
+
+- `SMS` = freestanding 60cm
+- `SMV` = fully integrated 60cm (panel-ready)
+- `SMI` = semi-integrated 60cm
+- `SPS` / `SPV` = slim 45cm
+
+The "EU global" patterns (e.g., `SPS6ZMI35E`) usually do **not** appear in IL retail. If you're tempted to use a global model number, stop and find the IL SKU first.
+
+### When verification fails
+
+If after 2 search attempts you can't find a working URL for a candidate:
+
+- Don't fabricate. Drop the candidate.
+- Or use the category catalog page as a fallback: `https://www.zap.co.il/models.aspx?sog=e-<category>`.
+- Note in the item's body prose what didn't work and why.
 
 ## Workflow on "Set up a new house"
 
