@@ -72,9 +72,11 @@ If you can't find an image, reviews, or a link for an option, leave the field ou
 
 The correct flow:
 
-1. **Browse the IL retailer catalog by attribute, not model.**
-   - Zap catalog URL pattern: `https://www.zap.co.il/models.aspx?sog=e-<category>` (e.g., `e-dishwasher`, `e-refrigerator`, `e-washer`, `e-airconditioner`, `e-oven`)
-   - This lists every IL-stocked SKU in the category. Filter mentally by user's constraints (width, capacity, brand, etc.).
+1. **Triangulate with multiple searches** &mdash; never rely on one search. The catalog page top isn't sorted by popularity, and the catalog can miss entry-tier models from premium brands. Combine:
+   - **Hebrew attribute search** on Zap (e.g., `מדיח 45 ס"מ`, `מקרר מקפיא תחתון`, `מזגן 12000`) &mdash; works better than English keywords for IL retail
+   - **Category catalog** (`https://www.zap.co.il/models.aspx?sog=e-<category>`) for full SKU list
+   - **Brand IL site** (e.g., bosch-home.co.il) for what the importer officially carries
+   - See `skills/market/il.md` for the full strategy guide
 2. **Pick top candidates from the IL catalog.** These have real, verifiable IL SKUs.
 3. **Verify each candidate URL works** before recording it:
    - Run `WebFetch` on the candidate `product_url` (typically `https://www.zap.co.il/search.aspx?keyword=<Brand>+<IL-SKU>`).

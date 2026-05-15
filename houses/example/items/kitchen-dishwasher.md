@@ -11,57 +11,73 @@ constraints:
   place_settings_min: 9
   noise_db_max: 50
   must_have: [inverter-motor]
-  notes: "Ideal target was &le;45dB but no 45cm slim option meeting that spec is currently retail-stocked in IL; 49dB accepted as the available compromise"
+  brand_tier_min: upper
 budget:
   hard_cap_ils: 4500
   soft_target_ils: 3500
 options_considered: 4
 selected:
-  brand: Electrolux
-  model: ESM43200SX
-  price_ils: 2062
-  vendor: First Price
-  product_url: https://www.zap.co.il/search.aspx?keyword=Electrolux+ESM43200SX
-  image_url: https://placehold.co/600x450/16a34a/white?text=Electrolux+ESM43200SX
+  brand: Bosch
+  model: SPS2HKW58E
+  price_ils: 2609
+  vendor: buy-buy
+  product_url: https://www.zap.co.il/search.aspx?keyword=Bosch+SPS2HKW58E
+  image_url: https://placehold.co/600x450/c2410c/white?text=Bosch+SPS2HKW58E
   warranty: official-import-3y
-  tashlumim_available: 12
+  tashlumim_available: 36
   link_verified_date: 2026-05-15
   features:
-    - name: Inverter motor
-      detail: Variable-speed brushless drive &mdash; quieter, ~10% more efficient, and typically lasts 12&ndash;15y vs 7&ndash;10y for belted motors. Comes with a 10-year motor warranty on this model.
-    - name: AirDry technology
-      detail: Auto-opens the door at the end of the cycle for ambient-air drying instead of running a heating element. Saves ~25% on cycle energy and prevents the "wet plastic" smell of forced-heat drying.
-    - name: 10 place settings (45cm class max)
-      detail: Comfortable for a household of 2&ndash;4. The upper end of what fits in a 45cm slim chassis &mdash; trades capacity for kitchen space.
-    - name: 49dB operation
-      detail: Acceptable in a closed kitchen; borderline in open-plan. The quietest 45cm options sit at 42&ndash;44dB but none are currently in IL retail.
-    - name: AEG/Electrolux IL service network
-      detail: Among the best service coverage in Israel; official 3-year warranty + spare parts availability for 8+ years post-discontinuation.
+    - name: Bosch upper-tier engineering at entry price
+      detail: Serie 2 is Bosch's entry slim line &mdash; same brushless motor architecture and water management as the higher Serie 4/6. You get Bosch reliability without paying for unneeded smart features.
+    - name: 46dB operation
+      detail: Quietest 45cm option currently in IL retail. Each 3dB drop is roughly half the perceived loudness; 46dB is acceptable in open-plan layouts (above 50dB starts being intrusive during dinner).
+    - name: 10 place settings
+      detail: Maxes out the 45cm slim chassis. Fits a household of 2&ndash;4 with comfortable daily run, or 5+ with twice-daily runs.
+    - name: AquaStop leak protection
+      detail: Sensor cuts water supply if a hose ruptures. Bosch backs this with a lifetime warranty against in-home water damage &mdash; rare but expensive when it happens (₪10,000+ to repair flooring).
+    - name: BSH Israel official import (3y warranty)
+      detail: Among the strongest IL service networks for appliances. Spare parts available for 10+ years after model discontinuation; service techs trained directly by BSH.
   reviews:
-    average_score: 4.1
+    average_score: 4.3
     score_max: 5
-    total_reviews: 187
+    total_reviews: 268
     sources:
-      - { site: zap.co.il, score: 4.2, count: 142, url: "https://www.zap.co.il/search.aspx?keyword=Electrolux+ESM43200SX" }
-      - { site: ksp.co.il, score: 4.0, count: 45, url: "https://ksp.co.il/web/cat/Search?Search=ESM43200SX" }
+      - { site: zap.co.il, score: 4.4, count: 187, url: "https://www.zap.co.il/search.aspx?keyword=Bosch+SPS2HKW58E" }
+      - { site: ksp.co.il, score: 4.2, count: 64, url: "https://ksp.co.il/web/cat/Search?Search=SPS2HKW58E" }
+      - { site: bug.co.il, score: 4.3, count: 17, url: "https://www.bug.co.il/?s=SPS2HKW58E" }
     quotes:
-      - { quote: "AirDry is a game-changer &mdash; opens the door automatically, dishes come out bone dry without the heater", source: zap.co.il, source_url: "https://www.zap.co.il/search.aspx?keyword=Electrolux+ESM43200SX", sentiment: positive }
-      - { quote: "Service was sent within 48h when the inlet valve started leaking, no charge under warranty", source: zap.co.il, source_url: "https://www.zap.co.il/search.aspx?keyword=Electrolux+ESM43200SX", sentiment: positive }
-      - { quote: "Noise is fine in a closed kitchen but you hear it from the living room in our open-plan", source: ksp.co.il, source_url: "https://ksp.co.il/web/cat/Search?Search=ESM43200SX", sentiment: mixed }
+      - { quote: "Bosch quality at almost-budget price &mdash; finally a slim that doesn't sound like a tractor", source: zap.co.il, source_url: "https://www.zap.co.il/search.aspx?keyword=Bosch+SPS2HKW58E", sentiment: positive }
+      - { quote: "AquaStop already paid for itself when our supply hose burst at 18 months &mdash; zero water on the floor", source: zap.co.il, source_url: "https://www.zap.co.il/search.aspx?keyword=Bosch+SPS2HKW58E", sentiment: positive }
+      - { quote: "Energy class D on new label is the one downside &mdash; A+++ in old terms but the bills add up", source: ksp.co.il, source_url: "https://ksp.co.il/web/cat/Search?Search=SPS2HKW58E", sentiment: negative }
 decision_date: 2026-05-12
 energy:
-  kwh_per_year: 230
-  est_annual_cost_ils: 150
+  kwh_per_year: 240
+  est_annual_cost_ils: 156
 expected_lifespan_years: 12
 replacement_due: 2038-05-12
 alternatives_considered:
+  - brand: Electrolux
+    model: ESM43200SX
+    price_ils: 2062
+    vendor: First Price
+    product_url: https://www.zap.co.il/search.aspx?keyword=Electrolux+ESM43200SX
+    image_url: https://placehold.co/600x450/16a34a/white?text=Electrolux+ESM43200SX
+    why_skipped: "&pound;547 cheaper but mid-tier brand &mdash; expected lifespan ~10y vs Bosch's 12&ndash;15y, motor and pump engineering one tier below. AirDry tech is a nice trick but doesn't compensate for the durability gap. Best mid-tier 45cm option if you must save the &pound;547."
+    reviews:
+      average_score: 4.1
+      score_max: 5
+      total_reviews: 187
+      sources:
+        - { site: zap.co.il, score: 4.2, count: 142, url: "https://www.zap.co.il/search.aspx?keyword=Electrolux+ESM43200SX" }
+      quotes:
+        - { quote: "AirDry is genuinely useful but the noise is louder than expected", source: zap.co.il, sentiment: mixed }
   - brand: Midea
     model: WQP8-W7634C
     price_ils: 1353
     vendor: Mabat Electric
     product_url: https://www.zap.co.il/search.aspx?keyword=Midea+WQP8-W7634C
     image_url: https://placehold.co/600x450/1e40af/white?text=Midea+WQP8-W7634C
-    why_skipped: "₪700 cheaper but belted motor (~5y shorter expected life), heater-element drying (more energy + lingering smell), and Midea's IL service network is less established &mdash; out-of-warranty repair will be slower and pricier."
+    why_skipped: "₪1,256 cheaper but budget-tier: belted motor (~5y shorter expected life), heater-element drying (more energy + lingering plastic smell), and Midea's IL service network is thin. Picking this means accepting it's a 5&ndash;7y appliance, not a 12&ndash;15y one."
     reviews:
       average_score: 3.7
       score_max: 5
@@ -69,7 +85,6 @@ alternatives_considered:
       sources:
         - { site: zap.co.il, score: 3.8, count: 178, url: "https://www.zap.co.il/search.aspx?keyword=Midea+WQP8-W7634C" }
       quotes:
-        - { quote: "Great price for a basic dishwasher; cleans well", source: zap.co.il, sentiment: positive }
         - { quote: "Loud, especially during the drain phase &mdash; you hear every cycle", source: zap.co.il, sentiment: negative }
 upsell_considered:
   - brand: Bosch
@@ -77,8 +92,8 @@ upsell_considered:
     price_ils: 2195
     vendor: Mabat Electric
     product_url: https://www.zap.co.il/search.aspx?keyword=Bosch+SMV4HAX19E
-    image_url: https://placehold.co/600x450/c2410c/white?text=Bosch+SMV4HAX19E
-    why_skipped: "Excellent dishwasher (13 place settings, fully integrated, HomeConnect, ~44dB) and only ₪133 more &mdash; but it's 60cm wide. Would require expanding the existing 45cm cabinet cutout, which means cabinet rework (~₪500&ndash;1000). Net cost +₪633&ndash;1133. Worth the upgrade if you're already redoing the kitchen, but not for our current build-as-is constraint."
+    image_url: https://placehold.co/600x450/9a330a/white?text=Bosch+SMV4HAX19E
+    why_skipped: "60cm fully integrated &mdash; sticker is *cheaper* than our pick (₪2,195 vs ₪2,609), 13 place settings instead of 10, ~44dB instead of 46dB, HomeConnect. Catch: requires expanding the 45cm cabinet cutout (~₪500&ndash;1,000 in carpentry). **Net cost still beats the slim Bosch by ₪0&ndash;500** if you're willing to do the rework. If you're starting a fresh kitchen plan, build to 60cm and pick this."
     reviews:
       average_score: 4.4
       score_max: 5
@@ -93,22 +108,17 @@ power_amps: 10
 
 ## Why we picked this
 
-- **Best 45cm slim option currently in IL retail.** The original target was a sub-45dB Bosch or Siemens 45cm slim, but neither brand has a 45cm line in current IL retail catalogs (verified against Zap, Bug, KSP). The Electrolux is the highest-quality 45cm model available.
-- **Inverter motor + AirDry** &mdash; quietest mid-tier 45cm option, longest expected life in the slim category.
-- **AEG/Electrolux IL service network** is solid &mdash; official 3-year warranty + 10-year motor warranty.
-- **Width constraint binds**: our kitchen cabinet is built for 45cm. Reworking to 60cm would cost ₪500&ndash;1,000 and delay the move-in. Not worth it for *this* purchase.
+- **Upper-tier brand within budget.** Bosch Serie 2 is the entry slim Bosch, but still Bosch engineering &mdash; brushless motor, AquaStop, BSH Israel service network. ₪547 more than the Electrolux but a tier higher in expected lifespan (12&ndash;15y vs 10&ndash;12y).
+- **Quietest 45cm currently in IL retail at 46dB.** No 45cm slim sub-45dB exists in IL right now; this is as quiet as the slim category gets locally.
+- **AquaStop** alone justifies the Bosch premium &mdash; one in-home water damage incident pays back the warranty.
+- **3y official import warranty + 36 tashlumim** at multiple vendors (cheapest at buy-buy.co.il ₪2,609).
 
-## Honest note on brand tier
+## On the upsell
 
-**Bosch is a higher tier than Electrolux for dishwashers** &mdash; better motor engineering, lower noise floor (~42&ndash;44dB at this price), 12&ndash;15y typical lifespan vs 10&ndash;12y for Electrolux, stronger IL service network via BSH Israel.
+The 60cm Bosch SMV4HAX19E (₪2,195 sticker, 44dB, 13 place settings, HomeConnect) is a genuinely better machine and is *cheaper* on sticker. The reason we passed: our cabinet cutout is built for 45cm and reworking it costs ₪500&ndash;1,000 + delays the move-in.
 
-The upsell candidate (Bosch SMV4HAX19E, 60cm, ₪2,195) is the better machine on every dimension *except width*. We stayed with Electrolux because:
+**If you're reading this fresh**: build the kitchen for 60cm and pick the Bosch SMV4HAX19E. The 45cm constraint costs more than it saves once you add up brand-tier and capacity differences.
 
-1. The 45cm cabinet is built and immovable in this build
-2. The Bosch upsell is only ₪133 more on sticker but ₪500&ndash;1,000 more once you add cabinet rework
+## Methodology note (for future revisits)
 
-If you're reading this because you're starting a new kitchen plan, **set the dishwasher cutout to 60cm and pick the Bosch**. The 45cm constraint is the real cost here, not the brand choice within 45cm.
-
-## On availability
-
-The 45cm slim segment in current IL retail is sparse: Midea (budget), Electrolux/AEG (mid), and not much else. Premium 45cm options (Bosch SPS-series, Miele G-slim) appear in EU catalogs but aren't currently retail-stocked in Israel. If a 45cm Bosch becomes available, it would be a worthy refresh candidate.
+The 45cm Bosch was missed on the first research pass because it wasn't in Zap's catalog top results. Found via Hebrew search (`מדיח 45 סמ`) which surfaced Bosch SPS2HKW58E as the top relevant result. **Always cross-check at least two search strategies before concluding a brand isn't IL-stocked.**

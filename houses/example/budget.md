@@ -5,7 +5,7 @@ breakdown:
   appliances:
     cap_ils: 26000
     spent_ils: 0
-    committed_ils: 2062
+    committed_ils: 2609
   furniture:
     cap_ils: 19500
     spent_ils: 0

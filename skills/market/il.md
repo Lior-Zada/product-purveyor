@@ -22,9 +22,24 @@ applies_to: [israel, il]
 
 **Critical:** never search Zap or KSP by a global/EU model number. Global SKUs (e.g., `SPS6ZMI35E` for a Bosch slim dishwasher) usually do not exist in IL retail catalogs. The IL importer (BSH Israel for Bosch, etc.) re-catalogs products under different SKUs (e.g., `SMV`, `SMS`, `SPV`, `SMI` series). Searching by global model returns zero hits and produces broken links.
 
-### Step 1: Browse the IL catalog by category
+### Step 1: Triangulate IL availability with multiple searches
 
-Get the full list of IL-stocked SKUs in the category from Zap's catalog:
+Use **at least two** of these strategies in parallel; don't rely on a single search. Different strategies surface different products:
+
+**A. Hebrew attribute search** &mdash; Zap's NLP works best in Hebrew with product-noun + key spec. Examples:
+
+| English | Hebrew search |
+|---|---|
+| 45cm dishwasher | `מדיח 45 ס"מ` or `מדיח כלים צר` |
+| Slim Bosch dishwasher | `מדיח בוש צר` |
+| 9kg front-load washer | `מכונת כביסה 9 קג` |
+| Heat-pump dryer | `מייבש משאבת חום` |
+| 12000 BTU AC | `מזגן 12000` |
+| Bottom-freezer fridge | `מקרר מקפיא תחתון` |
+
+URL form: `https://www.zap.co.il/search.aspx?keyword=<URL-encoded-Hebrew>`. **Filter the results to the correct category facet** &mdash; Hebrew search will return false positives for ambiguous queries (e.g., "45 ס"מ" matches turntables, drills, AC units).
+
+**B. Catalog by category** (full IL-stocked SKU list):
 
 | Category | URL |
 |---|---|
@@ -35,11 +50,21 @@ Get the full list of IL-stocked SKUs in the category from Zap's catalog:
 | Air conditioners | https://www.zap.co.il/models.aspx?sog=e-airconditioner |
 | Dryers | https://www.zap.co.il/models.aspx?sog=e-dryer |
 
-These pages show what's actually for sale in Israel right now.
+Top of the catalog page is **not** a popularity sort by default &mdash; verify with the "best seller" / "most popular" sort facet. Catalog pages often miss entry-tier models from premium brands (e.g., Bosch Serie 2 SPS2 line might not be in the top results).
+
+**C. Brand IL site** &mdash; check the manufacturer's IL page for what they officially import (e.g., bosch-home.co.il, lg.com/il, samsung.com/il). This catches models the IL importer carries that retailers haven't fully indexed yet. Then take that IL SKU back to Zap (Strategy A) to find vendors.
+
+**D. Hebrew product reviews** &mdash; YouTube `[brand] ביקורת`, Tapuz forums, Facebook neighborhood groups. Reviewers often mention the IL SKU explicitly when comparing.
 
 ### Step 2: Filter by user constraints
 
-Mentally filter (or use Zap's facets) by width, capacity, brand, energy class. Pick 3&ndash;5 top candidates with their IL SKUs.
+Within results, filter by:
+
+- **Hard requirements** first (width, capacity, must-have features) &mdash; drop anything that doesn't fit.
+- **Then sort by popularity** if Zap offers it (best-seller, most-saved). High popularity is a real signal in IL &mdash; reflects what trusted vendors are actually selling and what buyers are picking.
+- **Cross-check brand-tier table** in the relevant category skill. Within the in-constraint set, prefer upper-tier within budget over mid-tier with extra features.
+
+Pick 3&ndash;5 candidates with their IL SKUs.
 
 ### Step 3: Verify each candidate
 
